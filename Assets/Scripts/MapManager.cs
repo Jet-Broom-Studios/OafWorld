@@ -23,6 +23,7 @@ public class MapManager : MonoBehaviour
     private int numNodes;
     private NodeController[] nodeList;
     private int[,] adjacencyMatrix;
+    private int updateQueued;
 
     // Called when the object is initialized
     void Awake()
@@ -43,6 +44,7 @@ public class MapManager : MonoBehaviour
         numNodes = gridWidth * gridHeight;
         nodeList = new NodeController[numNodes];
         adjacencyMatrix = new int[numNodes, numNodes];
+        updateQueued = 0;
     }
 
     // Start is called before the first frame update
@@ -52,6 +54,37 @@ public class MapManager : MonoBehaviour
         InitializeGrid();
         // Assign pre-placed units to the closest node
         AssignUnitNodes();
+
+        SetNodeCover();
+    }
+
+    void Update()
+    {
+        // HACK: To avoid updating the grid before changes have taken place, we actually wait
+        // TWO update cycles before updating the grid.
+        if (updateQueued > 1)
+        {
+            updateQueued--;
+        }
+        else if (updateQueued == 1)
+        {
+            UpdateGrid();
+            updateQueued--;
+        }
+    }
+
+    // Tell the MapManager that the grid needs to be updated
+    // Called the grid layout changes (e.g. when cover is destroyed)
+    public void QueueUpdate()
+    {
+        updateQueued = 2;
+    }
+
+    internal void UpdateGrid()
+    {
+        PopulateAdjacencyMatrix();
+        SetNodeCover();
+        print("Grid updated!");
     }
 
     // Create a grid of pathing nodes on the map
@@ -76,25 +109,29 @@ public class MapManager : MonoBehaviour
             nodeZ -= nodeDistance;
         }
 
-        // Fill out the adjacency matrix
-        /* adjacencyMatrix represents a square 2d array with dimensions of numNodes,
-        * so if there are 9 nodes total, adjacencyMatrix would look something like this:
-        * 0 1 0 1 0 0 0 0 0
-        * 1 0 1 0 1 0 0 0 0
-        * 0 1 0 0 0 1 0 0 0
-        * 1 0 0 0 1 0 1 0 0
-        * 0 1 0 1 0 1 0 1 0
-        * 0 0 1 0 1 0 0 0 1
-        * 0 0 0 1 0 0 0 1 0
-        * 0 0 0 0 1 0 1 0 1
-        * 0 0 0 0 0 1 0 1 0
-        * Where each number represents the cost of moving from node [row] to node [column] (and 0 means no connection).
-        * Note that the nodes themselves in the game world would be arranged like this:
-        * 0 1 2
-        * 3 4 5
-        * 6 7 8
-        */
+        PopulateAdjacencyMatrix();
+    }
 
+    // Fill out the adjacency matrix
+    /* adjacencyMatrix represents a square 2d array with dimensions of numNodes,
+    * so if there are 9 nodes total, adjacencyMatrix would look something like this:
+    * 0 1 0 1 0 0 0 0 0
+    * 1 0 1 0 1 0 0 0 0
+    * 0 1 0 0 0 1 0 0 0
+    * 1 0 0 0 1 0 1 0 0
+    * 0 1 0 1 0 1 0 1 0
+    * 0 0 1 0 1 0 0 0 1
+    * 0 0 0 1 0 0 0 1 0
+    * 0 0 0 0 1 0 1 0 1
+    * 0 0 0 0 0 1 0 1 0
+    * Where each number represents the cost of moving from node [row] to node [column] (and 0 means no connection).
+    * Note that the nodes themselves in the game world would be arranged like this:
+    * 0 1 2
+    * 3 4 5
+    * 6 7 8
+    */
+    void PopulateAdjacencyMatrix()
+    {
         // TODO: This assumes that all cardinally or diagonally adjacent nodes are reachable,
         // This will need to be changed to account for blocking objects (such as walls or cliffs).
         for (int nodeNum = 0; nodeNum < numNodes; nodeNum++)
@@ -104,22 +141,36 @@ public class MapManager : MonoBehaviour
 
             for (int i = 0; i < nearbyNodes.Count; i++)
             {
+                // Check if there's any objects between the nodes (such as cover)
+                // Get bit mask for layer 6 (2^6) for Full Cover objects
+                int fullCoverMask = 64;
+                // Get bit mask for layer 7 (2^7) for Half Cover objects
+                int halfCoverMask = 128;
+                Vector3 nodePos = nodeList[nodeNum].transform.position;
+                Vector3 nearbyPos = nodeList[nearbyNodes[i]].transform.position;
+                if (Physics.Linecast(nodePos, nearbyPos, fullCoverMask))
+                {
+                    // Full cover in the way; don't set a connection
+                    continue;
+                }
+                if (Physics.Linecast(nodePos, nearbyPos, halfCoverMask))
+                {
+                    // Half cover in the way; set the connection at an increased cost
+                    ConnectNode(nodeNum, nearbyNodes[i], 2);
+                    continue;
+                }
+
                 // Set the connection
                 ConnectNode(nodeNum, nearbyNodes[i], 1);
             }
         }
+    }
 
-        // DEBUG
-        //print("Adjacency Matrix:");
-        //for (int r = 0; r < numNodes; r++)
-        //{
-        //    string row = "";
-        //    for (int c = 0; c < numNodes; c++)
-        //    {
-        //        row += adjacencyMatrix[r,c] + ", ";
-        //    }
-        //    print("Row " + r + ": " + row);
-        //}
+    // Returns the distance between nodes (irrespective of barriers)
+    internal int getDistBetweenNodes(int startNode, int endNode)
+    {
+        int dist = Mathf.Abs((startNode % gridWidth) - (endNode % gridWidth)) + Mathf.Abs((startNode / gridHeight) - (endNode / gridHeight));
+        return dist;
     }
 
     // Returns the specified node object
@@ -131,9 +182,6 @@ public class MapManager : MonoBehaviour
     // Assign every pre-placed unit a map node at their current location
     private void AssignUnitNodes()
     {
-        // TODO: This just considers player unit objects right now.
-        // Any units added later (e.g. enemy units) will also need to be processed here!
-
         // Get the units on the map...
         GameObject[] unitList = GameObject.FindGameObjectsWithTag("Unit");
         // ...and for each one, find the closest node.
@@ -154,13 +202,12 @@ public class MapManager : MonoBehaviour
                 }
             }
             // Set this unit to the closest node.
-            // TODO: The script name may be changed in the future! Also scripts for different units may have different names!
-            unitList[i].GetComponent<PlayerUnitController>().SetCurrentNode(minNode);
+            unitList[i].GetComponent<UnitController>().SetCurrentNode(minNode);
         }
     }
 
     // Mark pathable nodes from the given source node
-    public void GeneratePathsFromNode(int sourceNode, int pathPower)
+    public void GeneratePathsFromNode(int sourceNode, int pathPower, bool visualize)
     {
         ResetNodePaths();
         List<int> nodesToProcess = GetConnectedNodes(sourceNode, pathPower);
@@ -188,7 +235,7 @@ public class MapManager : MonoBehaviour
                             highestPower = nodeList[j].GetPathPower() - adjacencyMatrix[j, currentNode];
                         }
                     }
-                    nodeList[currentNode].SetPathable(true);
+                    if (visualize) nodeList[currentNode].SetPathable(true);
                     nodeList[currentNode].SetPreviousNode(highestPrevNode);
                     nodeList[currentNode].SetProcessed(true);
                     nodeList[currentNode].SetPathPower(highestPower);
@@ -230,6 +277,251 @@ public class MapManager : MonoBehaviour
         {
             nodeList[i].ResetNode();
         }
+    }
+
+    // Set the level of protection each node has on each side.
+    internal void SetNodeCover()
+    {
+        for (int i = 0; i < nodeList.Length; i++)
+        {
+            NodeController currentNode = nodeList[i];
+            int[] coverInfo = new int[4];
+            Vector3 nodePos = currentNode.transform.position;
+            // Check for cover around the target node
+            // Get bit mask for layer 6 (2^6) for Full Cover objects
+            int fullCoverMask = 64;
+            // Get bit mask for layer 7 (2^7) for Half Cover objects
+            int halfCoverMask = 128;
+
+            // Check north cover
+            if (Physics.Linecast(nodePos, nodePos + new Vector3(0f, 0f, nodeDistance), fullCoverMask))
+            {
+                coverInfo[0] = 2;
+            }
+            else if (Physics.Linecast(nodePos, nodePos + new Vector3(0f, 0f, nodeDistance), halfCoverMask))
+            {
+                coverInfo[0] = 1;
+            }
+
+            // Check east cover
+            if (Physics.Linecast(nodePos, nodePos + new Vector3(nodeDistance, 0f, 0f), fullCoverMask))
+            {
+                coverInfo[1] = 2;
+            }
+            else if (Physics.Linecast(nodePos, nodePos + new Vector3(nodeDistance, 0f, 0f), halfCoverMask))
+            {
+                coverInfo[1] = 1;
+            }
+
+            // Check south cover
+            if (Physics.Linecast(nodePos, nodePos + new Vector3(0f, 0f, -nodeDistance), fullCoverMask))
+            {
+                coverInfo[2] = 2;
+            }
+            else if (Physics.Linecast(nodePos, nodePos + new Vector3(0f, 0f, -nodeDistance), halfCoverMask))
+            {
+                coverInfo[2] = 1;
+            }
+
+            // Check west cover
+            if (Physics.Linecast(nodePos, nodePos + new Vector3(-nodeDistance, 0f, 0f), fullCoverMask))
+            {
+                coverInfo[3] = 2;
+            }
+            else if (Physics.Linecast(nodePos, nodePos + new Vector3(-nodeDistance, 0f, 0f), halfCoverMask))
+            {
+                coverInfo[3] = 1;
+            }
+
+            currentNode.SetCoverInfo(coverInfo);
+        }
+    }
+
+    // Get the level of protection the target node has from the source node
+    /* O O O X X
+     * O O O X X
+     * O #|X X X
+     * O O O X X
+     * O O O X X
+     * '#' represents a unit behind cover. The unit behind the cover 
+     * would receive protection from any attacker standing on an 'X' tile, but
+     * no protection from attackers standing on an 'O' tile.
+     * X X X X X
+     * O O _ X X
+     * O O #|X X
+     * O O O O X
+     * O O O O X
+     */
+    // Also set the target node's front cover to the piece of cover that will absorb a missed attack
+    // If the source is 2 or more tiles away, use the cover that gives the best protection.
+    // Otherwise, use the cover that gives the worst protection.
+    // FIXME: This code seems extraordinarily brain-dead
+    internal int GetProtection(int sourceNode, int targetNode)
+    {
+        Vector3 sourcePos = nodeList[sourceNode].transform.position;
+        Vector3 targetPos = nodeList[targetNode].transform.position;
+        Vector3 displacement = sourcePos - targetPos;
+        int protection = 0;
+        int coverDirection = 0;
+
+        const int north = 0;
+        const int east = 1;
+        const int south = 2;
+        const int west = 3;
+
+        int northCoverProt = nodeList[targetNode].GetCoverInfo(north);
+        int eastCoverProt = nodeList[targetNode].GetCoverInfo(east);
+        int southCoverProt = nodeList[targetNode].GetCoverInfo(south);
+        int westCoverProt = nodeList[targetNode].GetCoverInfo(west);
+
+        // Handles when source and target are at least 2 tiles away
+        if (displacement.z >= 2 * nodeDistance)
+        {
+            // Source is northward of the target
+            if (northCoverProt > protection)
+            {
+                protection = northCoverProt;
+                coverDirection = north;
+            }
+        }
+        if (displacement.x >= 2 * nodeDistance)
+        {
+            // Source is eastward of the target
+            if (eastCoverProt > protection)
+            {
+                protection = eastCoverProt;
+                coverDirection = east;
+            }
+        }
+        if (displacement.z <= -2 * nodeDistance)
+        {
+            // Source is southward of the target
+            if (southCoverProt > protection)
+            {
+                protection = southCoverProt;
+                coverDirection = south;
+            }
+        }
+        if (displacement.x <= -2 * nodeDistance)
+        {
+            // Source is westward of the target
+            if (westCoverProt > protection)
+            {
+                protection = westCoverProt;
+                coverDirection = west;
+            }
+        }
+
+        // Handles when source and target are 1 tile away
+        if (displacement.z == nodeDistance && displacement.x == 0)
+        {
+            // Source is directly north of the target
+            coverDirection = north;
+        }
+        else if (displacement.x == nodeDistance && displacement.z == 0)
+        {
+            // Source is directly east of the target
+            coverDirection = east;
+        }
+        else if (displacement.z == -nodeDistance && displacement.x == 0)
+        {
+            // Source is directly south of the target
+            coverDirection = south;
+        }
+        else if (displacement.x == -nodeDistance && displacement.z == 0)
+        {
+            // Source is directly west of the target
+            coverDirection = west;
+        }
+        else if (displacement.z == nodeDistance && displacement.x == nodeDistance)
+        {
+            // Source is directly northeast of target
+            // Get minimum amount of cover applicable
+            if (northCoverProt < eastCoverProt)
+            {
+                coverDirection = north;
+            }
+            else
+            {
+                coverDirection = east;
+            }
+        }
+        else if (displacement.z == -nodeDistance && displacement.x == nodeDistance)
+        {
+            // Source is directly southeast of target
+            if (eastCoverProt < southCoverProt)
+            {
+                coverDirection = east;
+            }
+            else
+            {
+                coverDirection = south;
+            }
+        }
+        else if (displacement.z == -nodeDistance && displacement.x == -nodeDistance)
+        {
+            // Source is directly southwest of target
+            if (southCoverProt < westCoverProt)
+            {
+                coverDirection = south;
+            }
+            else
+            {
+                coverDirection = west;
+            }
+        }
+        else if (displacement.z == nodeDistance && displacement.x == -nodeDistance)
+        {
+            // Source is directly northwest of target
+            if (westCoverProt < northCoverProt)
+            {
+                coverDirection = west;
+            }
+            else
+            {
+                coverDirection = north;
+            }
+        }
+        protection = nodeList[targetNode].GetCoverInfo(coverDirection);
+
+        // Get the actual cover object that will absorb a missed attack (if any)
+        Vector3 rayDirection;
+        switch (coverDirection)
+        {
+            default:
+            case north:
+                rayDirection = new Vector3(0f, 0f, 1f);
+                break;
+            case east:
+                rayDirection = new Vector3(1f, 0f, 0f);
+                break;
+            case south:
+                rayDirection = new Vector3(0f, 0f, -1f);
+                break;
+            case west:
+                rayDirection = new Vector3(-1f, 0f, 0f);
+                break;
+        }
+        
+        RaycastHit hit;
+        // Get a bit mask for Full Cover (2^6) and Half Cover (2^7) objects
+        int layerMask = (64 + 128);
+        
+        // Get the cover object in the front direction (if any)
+        if (Physics.Raycast(targetPos, rayDirection, out hit, nodeDistance, layerMask))
+        {
+            // Abra cadabra
+            print(hit.transform.gameObject.name);
+            CoverController frontCover = (CoverController)hit.transform.gameObject.GetComponent(typeof(CoverController));
+            nodeList[targetNode].SetFrontCover(frontCover);
+        }
+        else
+        {
+            // Nothing found
+            nodeList[targetNode].SetFrontCover(null);
+        }
+
+        return protection;
     }
 
     private void ConnectNode(int sourceNode, int destinationNode, int pathCost)

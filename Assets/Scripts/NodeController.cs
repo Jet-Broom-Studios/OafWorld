@@ -19,11 +19,15 @@ public class NodeController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     private bool processed;
     private int pathPower;
     private int nodeNumber;
+    private int[] coverInfo;
+    // If a unit on this node is unsuccessfully attacked, damage this cover object instead
+    private CoverController frontCover;
 
     public void Awake()
     {
         renderer = GetComponent<Renderer>();
         ResetNode();
+        coverInfo = new int[4];
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -37,8 +41,7 @@ public class NodeController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             // Get a path of nodes
             List<int> nodePath = MapManager.instance.GetNodePath(this);
             // Start moving the selected unit towards this node
-            GameManager.instance.GetSelectedUnit().StartMoving(nodePath);
-            MapManager.instance.ResetNodePaths();
+            GameManager.instance.GetSelectedUnit().OrderMove(nodePath);
         }
     }
 
@@ -122,5 +125,33 @@ public class NodeController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public int GetPathPower()
     {
         return pathPower;
+    }
+
+    // Set info about how covered this node is.
+    // side: 0 (north), 1 (east), 2 (south), 3 (west)
+    // state: 0 (no cover), 1 (half cover), 2 (full cover)
+    public void SetCoverInfo(int side, int state)
+    {
+        coverInfo[side] = state;
+    }
+
+    public void SetCoverInfo(int[] newCoverInfo)
+    {
+        coverInfo = newCoverInfo;
+    }
+
+    public int GetCoverInfo(int side)
+    {
+        return coverInfo[side];
+    }
+
+    public void SetFrontCover(CoverController side)
+    {
+        frontCover = side;
+    }
+
+    public CoverController GetFrontCover()
+    {
+        return frontCover;
     }
 }
