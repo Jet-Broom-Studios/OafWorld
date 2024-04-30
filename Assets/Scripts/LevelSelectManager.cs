@@ -18,6 +18,7 @@ public class LevelSelectManager : MonoBehaviour
         
     }
 
+    // make sure that the button has the matching parameter for the next scene
     public void selectLevel(string level)
     {
         SceneManager.LoadScene(level);
