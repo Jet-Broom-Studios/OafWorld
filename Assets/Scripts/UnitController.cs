@@ -27,7 +27,9 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
 
     private new Renderer renderer;
     // How much HP this unit currently has
-    private int currentHealth;
+    internal int currentHealth;
+    // How many action points this unit currently has
+    internal int actionPoints;
     // What path node this unit is currently at
     private int currentNode;
     // Whether this unit is currently idle (and can be selected and ordered)
@@ -51,6 +53,7 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
         renderer = GetComponent<Renderer>();
         renderer.material = neutralMaterial;
         currentHealth = maxHealth;
+        actionPoints = 2;
     }
 
     // Update is called once per frame
@@ -77,8 +80,7 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
                 if (nodePath.Count == 0)
                 {
                     // If there's no more nodes left, stop moving. We've reached our destination!
-                    moving = false;
-                    idle = true;
+                    FinishAction();
                     this.currentNode = nodeNum;
                 }
             }
@@ -90,7 +92,7 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
 
             // Check if the target is in cover
             float chanceToHit = 1 - (0.5f * MapManager.instance.GetProtection(currentNode, currentTarget.currentNode));
-            print(name + " is attacking " + currentTarget.name + " with a " + chanceToHit + " chance to hit.");
+            print(name + " is attacking " + currentTarget.unitName + " with a " + chanceToHit + " chance to hit.");
             bool hit = (Random.value < chanceToHit);
 
             if (hit)
@@ -109,10 +111,9 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
                     targetNode.GetFrontCover().ChangeHealth(-attackDamage);
                 }
             }
-            
+
             // Attack done
-            idle = true;
-            attacking = false;
+            FinishAction();
         }
     }
 
@@ -175,6 +176,7 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
     // Move along the given path of nodes
     public void OrderMove(List<int> nodePath)
     {
+        actionPoints--;
         SetIdle(false);
         moving = true;
         this.nodePath = nodePath;
@@ -183,6 +185,7 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
     // Attack the target unit
     public void OrderAttack(UnitController targetUnit)
     {
+        actionPoints--;
         SetIdle(false);
         attacking = true;
         currentTarget = targetUnit;
@@ -233,5 +236,14 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
     public bool IsTargetable()
     {
         return targetable;
+    }
+
+    // Reset all action-related variables, and tell the Game Manager to check if the turn is over
+    private void FinishAction()
+    {
+        SetIdle(true);
+        moving = false;
+        attacking = false;
+        GameManager.instance.CheckTurnDone();
     }
 }
