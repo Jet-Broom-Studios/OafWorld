@@ -54,6 +54,7 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
         renderer.material = neutralMaterial;
         currentHealth = maxHealth;
         actionPoints = 2;
+
     }
 
     // Update is called once per frame
@@ -245,5 +246,10 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
         moving = false;
         attacking = false;
         GameManager.instance.CheckTurnDone();
+    }
+
+    public bool IsMoving()
+    {
+        return moving;
     }
 }
