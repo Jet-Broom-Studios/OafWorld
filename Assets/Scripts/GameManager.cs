@@ -40,16 +40,15 @@ public class GameManager : MonoBehaviour
     public void SetSelectedUnit(UnitController unit)
     {
         selectedUnit = unit;
-        if (unit != null && unit.belongsToPlayer && unit.actionPoints > 0)
+        if (unit != null && unit.actionPoints > 0)
         {
             int currentNode = unit.GetCurrentNode();
-            SetTargets(currentNode, unit.attackRange, true);
-            MapManager.instance.GeneratePathsFromNode(currentNode, unit.movePower, true);
+            SetTargets(currentNode, unit.attackRange, unit.belongsToPlayer);
+            MapManager.instance.GeneratePathsFromNode(currentNode, unit.movePower, unit.belongsToPlayer);
         }
-        if (unit != null) print("Unit selected!");
-        if (unit == null)
+
+        if (unit == null || unit.actionPoints <= 0)
         {
-            print("Unit deselected!");
             MapManager.instance.ResetNodePaths();
             ResetTargets();
         }
@@ -92,10 +91,10 @@ public class GameManager : MonoBehaviour
         // Right now we just immediately cycle back to the player's turn.
         // Remove this later when the enemy AI is implemented!
         // ---
-        if (!isPlayerTurn)
-        {
-            ChangeTurn();
-        }
+        //if (!isPlayerTurn)
+        //{
+        //    ChangeTurn();
+        //}
         // ---
     }
 
