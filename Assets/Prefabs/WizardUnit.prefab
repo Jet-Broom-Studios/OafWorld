@@ -62,7 +62,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: fe18f61135bb21a45a18dafffbfe600e, type: 3}
       propertyPath: m_Name
-      value: Wizard
+      value: WizardUnit
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: fe18f61135bb21a45a18dafffbfe600e, type: 3}
+      propertyPath: m_TagString
+      value: Unit
       objectReference: {fileID: 0}
     - target: {fileID: 1630794972795428178, guid: fe18f61135bb21a45a18dafffbfe600e, type: 3}
       propertyPath: m_Materials.Array.data[0]

@@ -19,12 +19,12 @@ public class PlayerAnimScript : MonoBehaviour
     {
         if (uc.IsMoving())
         {
-            anim.SetBool("isWalking", true);
+            //anim.SetBool("isWalking", true);
             anim.CrossFade("Walking", .1f);
         }
         if (uc.IsIdle())
         {
-            anim.SetBool("isIdle", true);
+            //anim.SetBool("isIdle", true);
             anim.CrossFade("Idle", .1f);
             /*if (Random.Range(1, 4) == 1)
             {
