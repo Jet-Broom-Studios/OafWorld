@@ -63,7 +63,7 @@ public class PlayerAnimScript : MonoBehaviour
     public void StartAttack(UnitController targetUnit)
     {
         enemyTarget = targetUnit;   // Cannot pass much arguments in animation events unfortunately, so I set a private var in global
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(targetUnit.transform.position - transform.position), Time.deltaTime * 5);     // WIP doesn't do a thing rn :(
+        //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(targetUnit.transform.position - transform.position), Time.deltaTime * 5);     // WIP doesn't do a thing rn :(
         anim.SetBool("isAttacking", true);
         anim.CrossFade("Attack", .1f);  // Play the animation, will then call "SendAttack" at proper frame
         anim.SetBool("isAttacking", false);

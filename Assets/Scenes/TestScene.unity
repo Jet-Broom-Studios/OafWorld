@@ -1166,6 +1166,7 @@ MonoBehaviour:
   maxZ: 4
   minX: -8
   maxX: 8
+  sensitivity: -3
 --- !u!4 &963882571 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9188446476393249053, guid: e667a813300e0fe4eaf6768edf5f44bb, type: 3}

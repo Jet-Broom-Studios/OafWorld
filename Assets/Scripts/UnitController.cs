@@ -135,25 +135,28 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
     // If the new HP total is greater than maxHealth, set it to maxHealth instead.
     public void ChangeHealth(int deltaHP)
     {
-        currentHealth += deltaHP;
-        if (deltaHP > 0)
+        if (this != null)   // Was trying to access dead units, so I added this
         {
-            print(name + " healed " + deltaHP + " HP!");
-        }
-        else
-        {
-            print(name + " lost " + -deltaHP + " HP!");
-        }
+            currentHealth += deltaHP;
+            if (deltaHP > 0)
+            {
+                print(name + " healed " + deltaHP + " HP!");
+            }
+            else
+            {
+                print(name + " lost " + -deltaHP + " HP!");
+            }
 
-        if (currentHealth <= 0)
-        {
-            Kill();
-        }    
-        else if (currentHealth > maxHealth)
-        {
-            currentHealth = maxHealth;
-        }
+            if (currentHealth <= 0)
+            {
+                Kill();
+            }
+            else if (currentHealth > maxHealth)
+            {
+                currentHealth = maxHealth;
+            }
     }
+}
 
     // Destroy this unit
     public void Kill()
@@ -203,14 +206,14 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
             // This is triggered through animation events, so the animation will call "commitAttack" at the proper frame
             anim.StartAttack(targetUnit);   // This will simply start the animation
         }
-        else
+        else    // In theory, this shouldn't need to be here and this whole method should just call "anim.StartAttack(targetUnit)" but the ai is not actually attacking when set up this way
         {
             actionPoints--;
             SetIdle(false);
             attacking = true;
             currentTarget = targetUnit;
         }
-        
+        //anim.StartAttack(targetUnit);
     }
     // Contains what used to exist in OrderAttack, now called from PlayerAnimScript
     public void commitAttack(UnitController targetUnit)
