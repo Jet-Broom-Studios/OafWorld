@@ -13,7 +13,15 @@ public class CameraController : MonoBehaviour
     public float maxZ = 4f;
     public float minX = -8f;
     public float maxX = 8f;
-//
+
+    //rotation control
+    private float x;
+    private float y;
+    public float sensitivity = -3f;
+    private Vector3 rotate;
+
+
+
     void Update()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
@@ -32,5 +40,17 @@ public class CameraController : MonoBehaviour
         float newZPosition = Mathf.Clamp(transform.localPosition.z - zoomInput * zoomSensitivity, minZ, maxZ);
         transform.localPosition = new Vector3(transform.localPosition.x, newYPosition, newZPosition);
 
+
+        //rotation control
+        y = Input.GetAxis("Mouse X");
+        x = Input.GetAxis("Mouse Y");
+        if(x > maxX ){
+            x = maxX;
+        }
+        else if(x < minX){
+            x = minX;
+        }
+        rotate = new Vector3(x, y * sensitivity, 0);
+        transform.eulerAngles = transform.eulerAngles - rotate;
     }
 }
