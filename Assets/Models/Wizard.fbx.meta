@@ -37,7 +37,7 @@ ModelImporter:
       takeName: Body Rig|Idle
       internalID: 6190665555062937109
       firstFrame: 0
-      lastFrame: 95
+      lastFrame: 89
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -491,7 +491,14 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.70270264
+        functionName: SendAttack
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: e9372ede63c4c8c4bb2092bf9d6a8592, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -520,7 +527,14 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.5868726
+        functionName: SendAttack
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: e9372ede63c4c8c4bb2092bf9d6a8592, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -549,7 +563,14 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.7644788
+        functionName: SendAttack
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: e9372ede63c4c8c4bb2092bf9d6a8592, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -578,7 +599,14 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.6563707
+        functionName: SendAttack
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: e9372ede63c4c8c4bb2092bf9d6a8592, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}

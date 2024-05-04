@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -45,6 +46,8 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
     // What unit is currently being targeted (can be a friendly unit for beneficial spells, etc.)
     private UnitController currentTarget;
 
+    PlayerAnimScript anim;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -55,6 +58,7 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
         currentHealth = maxHealth;
         actionPoints = 2;
 
+        anim = GetComponent<PlayerAnimScript>();
     }
 
     // Update is called once per frame
@@ -194,6 +198,23 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
     // Attack the target unit
     public void OrderAttack(UnitController targetUnit)
     {
+        if (belongsToPlayer)
+        {
+            // This is triggered through animation events, so the animation will call "commitAttack" at the proper frame
+            anim.StartAttack(targetUnit);   // This will simply start the animation
+        }
+        else
+        {
+            actionPoints--;
+            SetIdle(false);
+            attacking = true;
+            currentTarget = targetUnit;
+        }
+        
+    }
+    // Contains what used to exist in OrderAttack, now called from PlayerAnimScript
+    public void commitAttack(UnitController targetUnit)
+    {
         actionPoints--;
         SetIdle(false);
         attacking = true;
@@ -256,8 +277,17 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
         GameManager.instance.CheckTurnDone();
     }
 
-    public bool IsMoving()
+    // Reference for animations
+/*    public bool isMoving()
     {
         return moving;
+    }*/
+    public bool IsAttacking()
+    {
+        return attacking;
     }
+/*    public Vector3 GetCurrentTargetPos()
+    {
+        return currentTarget.transform.position;
+    }*/
 }
