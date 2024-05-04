@@ -62,18 +62,26 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
     {
         if (moving)
         {
+            float NODE_SNAP_THRESHOLD = 0.05f;
             // Get the last node currently in the list
             int nodeNum = nodePath[nodePath.Count - 1];
-            NodeController currentNode = MapManager.instance.GetNode(nodeNum);
-            // Get the node's position
-            Vector3 nodePostion = currentNode.transform.position;
-            if (transform.position != nodePostion)
+            NodeController targetNode = MapManager.instance.GetNode(nodeNum);
+            if (Mathf.Abs((transform.position - targetNode.transform.position).magnitude) > NODE_SNAP_THRESHOLD)
             {
+                // Get the direction to the node
+                Vector3 nodeDirection = (targetNode.transform.position - transform.position).normalized;
+                // Distance ( speed = distance / time --> distance = speed * time)
+                float distance = moveSpeed * Time.deltaTime;
+                // Get the movement vector
+                Vector3 movement = nodeDirection * distance;
                 // Move towards the node
-                transform.position = Vector3.Lerp(transform.position, nodePostion, moveSpeed);
+                transform.position += movement;
             }
             else
             {
+                // Snap to the target nodes's position
+                transform.position = targetNode.transform.position;
+
                 // Start moving towards the next node (if any)
                 // Remove the last node from the list
                 nodePath.RemoveAt(nodePath.Count - 1);

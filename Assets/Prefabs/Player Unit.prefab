@@ -122,7 +122,7 @@ MonoBehaviour:
   unitName: Wizard
   belongsToPlayer: 1
   movePower: 6
-  moveSpeed: 0.1
+  moveSpeed: 2
   attackRange: 6
   attackDamage: 20
   maxHealth: 50
