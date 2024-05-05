@@ -8,8 +8,11 @@ public class GameUIManager : MonoBehaviour
     public static GameUIManager instance = null;
 
     public Text unitNameText;
-    public Text unitStatText;
+    public Text hpText;
+    public Text apText;
+    public Text mpText;
     public Button endTurnButton;
+    public Image charCard;
     private bool isEnabled;
 
     // Called when the object is initialized
@@ -38,13 +41,16 @@ public class GameUIManager : MonoBehaviour
         if (selectedUnit != null)
         {
             unitNameText.text = selectedUnit.unitName;
-            unitStatText.text = "Health: " + selectedUnit.currentHealth + "/" + selectedUnit.maxHealth
-                + "    Action Points: " + selectedUnit.actionPoints;
+            hpText.text = "HP\n" + selectedUnit.currentHealth + "/" + selectedUnit.maxHealth;
+            apText.text = "AP\n" + selectedUnit.actionPoints.ToString();
+            mpText.text = "MP\n" + "0";
         }
         else
         {
             unitNameText.text = "";
-            unitStatText.text = "";
+            hpText.text = "HP";
+            apText.text = "AP";
+            mpText.text = "MP";
         }
     }
 
@@ -64,6 +70,8 @@ public class GameUIManager : MonoBehaviour
 
         endTurnButton.gameObject.SetActive(isEnabled);
         unitNameText.gameObject.SetActive(isEnabled);
-        unitStatText.gameObject.SetActive(isEnabled);
+        hpText.gameObject.SetActive(isEnabled);
+        apText.gameObject.SetActive(isEnabled);
+        mpText.gameObject.SetActive(isEnabled);
     }
 }
