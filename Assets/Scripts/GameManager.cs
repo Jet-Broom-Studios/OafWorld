@@ -42,6 +42,7 @@ public class GameManager : MonoBehaviour
         selectedUnit = unit;
         if (unit != null && unit.actionPoints > 0)
         {
+            print("Unit selected!");
             int currentNode = unit.GetCurrentNode();
             SetTargets(currentNode, unit.attackRange, unit.belongsToPlayer);
             MapManager.instance.GeneratePathsFromNode(currentNode, unit.movePower, unit.belongsToPlayer);
@@ -86,16 +87,6 @@ public class GameManager : MonoBehaviour
                 unitList[i].actionPoints = 2;
             }
         }
-
-        // TODO: Make the enemy actually do stuff.
-        // Right now we just immediately cycle back to the player's turn.
-        // Remove this later when the enemy AI is implemented!
-        // ---
-        //if (!isPlayerTurn)
-        //{
-        //    ChangeTurn();
-        //}
-        // ---
     }
 
     // Returns true if it is currently the player's turn
@@ -109,10 +100,10 @@ public class GameManager : MonoBehaviour
     // Set which units can be targeted from the given position
     internal void SetTargets(int sourceNode, int attackRange, bool byPlayer)
     {
-        print("Setting targets...");
+        //print("Setting targets...");
         ResetTargets();
         UnitController[] unitList = FindObjectsByType<UnitController>(FindObjectsSortMode.None);
-        print("Found " + unitList.Length + " targets");
+        //print("Found " + unitList.Length + " potential targets");
         for (int i = 0; i < unitList.Length; i++)
         {
             // TODO: Allow targetting friendly units for beneficial spells
@@ -121,9 +112,10 @@ public class GameManager : MonoBehaviour
             // Mark any unit as targetable if both:
             // They are on opposite teams from the source
             // They are within range
-            if (unit.belongsToPlayer != byPlayer && MapManager.instance.getDistBetweenNodes(sourceNode, targetNode) <= attackRange)
+            if (unit.belongsToPlayer != byPlayer && MapManager.instance.GetDistBetweenNodes(sourceNode, targetNode) <= attackRange)
             {
                 unit.SetTargetable(true);
+                //print("Marked a target!");
             }
         }
     }

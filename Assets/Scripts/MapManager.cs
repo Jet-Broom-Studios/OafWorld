@@ -102,7 +102,7 @@ public class MapManager : MonoBehaviour
                 // TODO: Allow the heights (y-value) of the nodes to vary depending on terrain
                 nodeList[z * gridWidth + x] = Object.Instantiate(nodeObject, new Vector3(nodeX, 0f, nodeZ), Quaternion.identity);
                 nodeList[z * gridWidth + x].SetNumber(z * gridWidth + x);
-                print("Placing node at: " + nodeX + ", " + nodeZ);
+                //print("Placing node at: " + nodeX + ", " + nodeZ);
                 nodeX += nodeDistance;
             }
             nodeX = -nodeDistance * gridWidth / 2;
@@ -167,7 +167,7 @@ public class MapManager : MonoBehaviour
     }
 
     // Returns the distance between nodes (irrespective of barriers)
-    internal int getDistBetweenNodes(int startNode, int endNode)
+    internal int GetDistBetweenNodes(int startNode, int endNode)
     {
         int dist = Mathf.Abs((startNode % gridWidth) - (endNode % gridWidth)) + Mathf.Abs((startNode / gridHeight) - (endNode / gridHeight));
         return dist;
@@ -196,13 +196,30 @@ public class MapManager : MonoBehaviour
                 float dist = Vector3.Distance(nodePos, currentPos);
                 if (dist < minDist)
                 {
-                    print("Setting minNode to: " + j);
+                    //print("Setting minNode to: " + j);
                     minNode = j;
                     minDist = dist;
                 }
             }
             // Set this unit to the closest node.
             unitList[i].GetComponent<UnitController>().SetCurrentNode(minNode);
+        }
+        UpdateNodeOccupation();
+    }
+
+    // Properly mark which nodes have a unit currently standing on them
+    public void UpdateNodeOccupation()
+    {
+        // Set all nodes as unoccupied...
+        for (int i = 0; i < nodeList.Length; i++)
+        {
+            nodeList[i].SetOccupied(false);
+        }
+        UnitController[] unitList = FindObjectsByType<UnitController>(FindObjectsSortMode.None);
+        // Set all occupied nodes...
+        for (int i = 0; i < unitList.Length; i++)
+        {
+            nodeList[unitList[i].GetCurrentNode()].SetOccupied(true);
         }
     }
 
@@ -235,7 +252,7 @@ public class MapManager : MonoBehaviour
                             highestPower = nodeList[j].GetPathPower() - adjacencyMatrix[j, currentNode];
                         }
                     }
-                    if (visualize) nodeList[currentNode].SetPathable(true);
+                    if (visualize && !nodeList[currentNode].IsOccupied()) nodeList[currentNode].SetPathable(true);
                     nodeList[currentNode].SetPreviousNode(highestPrevNode);
                     nodeList[currentNode].SetProcessed(true);
                     nodeList[currentNode].SetPathPower(highestPower);
@@ -268,6 +285,19 @@ public class MapManager : MonoBehaviour
 
 
         return nodePath;
+    }
+
+    // Returns every node that can currently be pathed to
+    public List<int> GetPathableNodes()
+    {
+        List<int> pathableNodes = new List<int>();
+
+        for (int i = 0; i < numNodes; i++)
+        {
+            if (nodeList[i].GetPreviousNode() >= 0 && !nodeList[i].IsOccupied()) pathableNodes.Add(i);
+        }
+
+        return pathableNodes;
     }
 
     // Clear any node path data from the grid
@@ -361,8 +391,10 @@ public class MapManager : MonoBehaviour
         Vector3 sourcePos = nodeList[sourceNode].transform.position;
         Vector3 targetPos = nodeList[targetNode].transform.position;
         Vector3 displacement = sourcePos - targetPos;
+        print("displacement X: " + displacement.x);
+        print("displacement Z: " + displacement.z);
         int protection = 0;
-        int coverDirection = 0;
+        int coverDirection = -1;
 
         const int north = 0;
         const int east = 1;
@@ -482,7 +514,10 @@ public class MapManager : MonoBehaviour
                 coverDirection = north;
             }
         }
-        protection = nodeList[targetNode].GetCoverInfo(coverDirection);
+        if (coverDirection >= 0)
+        {
+            protection = nodeList[targetNode].GetCoverInfo(coverDirection);
+        }
 
         // Get the actual cover object that will absorb a missed attack (if any)
         Vector3 rayDirection;
@@ -511,7 +546,7 @@ public class MapManager : MonoBehaviour
         if (Physics.Raycast(targetPos, rayDirection, out hit, nodeDistance, layerMask))
         {
             // Abra cadabra
-            print(hit.transform.gameObject.name);
+            //print(hit.transform.gameObject.name);
             CoverController frontCover = (CoverController)hit.transform.gameObject.GetComponent(typeof(CoverController));
             nodeList[targetNode].SetFrontCover(frontCover);
         }
@@ -522,6 +557,30 @@ public class MapManager : MonoBehaviour
         }
 
         return protection;
+    }
+
+    // Returns true if the given node is fully exposed to an opposing unit
+    // isPlayer is true when checking if a player unit is exposed
+    internal bool isExposed(int nodeNum, bool isPlayer)
+    {
+        UnitController[] unitList = FindObjectsByType<UnitController>(FindObjectsSortMode.None);
+        for (int i = 0; i < unitList.Length; i++)
+        {
+            UnitController opUnit = unitList[i];
+            // Return true if:
+            // The unit is on the opposite team
+            // The given node is within it's weapon range
+            // There is no cover protecting the given node
+            if (opUnit.belongsToPlayer != isPlayer 
+                && GetDistBetweenNodes(opUnit.GetCurrentNode(), nodeNum) <= opUnit.attackRange
+                && GetProtection(opUnit.GetCurrentNode(), nodeNum) == 0)
+            {
+                // We're exposed!
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void ConnectNode(int sourceNode, int destinationNode, int pathCost)

@@ -20,6 +20,7 @@ public class NodeController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     private int pathPower;
     private int nodeNumber;
     private int[] coverInfo;
+    private bool occupied;
     // If a unit on this node is unsuccessfully attacked, damage this cover object instead
     private CoverController frontCover;
 
@@ -43,9 +44,10 @@ public class NodeController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             // Start moving the selected unit towards this node
             GameManager.instance.GetSelectedUnit().OrderMove(nodePath);
         }
+        //print("node cover info: " + coverInfo[0] + ", " + coverInfo[1] + ", " + coverInfo[2] + ", " + coverInfo[3]);
     }
 
-    // Reset all state and pathing data of this node
+    // Reset all pathing data of this node
     public void ResetNode()
     {
         selected = false;
@@ -115,6 +117,16 @@ public class NodeController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public bool IsProcessed()
     {
         return processed;
+    }
+
+    public void SetOccupied(bool isOccupied)
+    {
+        occupied = isOccupied;
+    }
+
+    public bool IsOccupied()
+    {
+        return occupied;
     }
 
     public void SetPathPower(int newPathPower)

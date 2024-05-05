@@ -198,22 +198,27 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
         this.nodePath = nodePath;
     }
 
+    public void OrderMove(int node)
+    {
+        OrderMove(MapManager.instance.GetNodePath(MapManager.instance.GetNode(node)));
+    }
+
     // Attack the target unit
     public void OrderAttack(UnitController targetUnit)
     {
-        if (belongsToPlayer)
-        {
-            // This is triggered through animation events, so the animation will call "commitAttack" at the proper frame
-            anim.StartAttack(targetUnit);   // This will simply start the animation
-        }
-        else    // In theory, this shouldn't need to be here and this whole method should just call "anim.StartAttack(targetUnit)" but the ai is not actually attacking when set up this way
-        {
-            actionPoints--;
-            SetIdle(false);
-            attacking = true;
-            currentTarget = targetUnit;
-        }
-        //anim.StartAttack(targetUnit);
+        //if (belongsToPlayer)
+        //{
+        //    // This is triggered through animation events, so the animation will call "commitAttack" at the proper frame
+        //    anim.StartAttack(targetUnit);   // This will simply start the animation
+        //}
+        //else    // In theory, this shouldn't need to be here and this whole method should just call "anim.StartAttack(targetUnit)" but the ai is not actually attacking when set up this way
+        //{
+        //    actionPoints--;
+        //    SetIdle(false);
+        //    attacking = true;
+        //    currentTarget = targetUnit;
+        //}
+        anim.StartAttack(targetUnit);
     }
     // Contains what used to exist in OrderAttack, now called from PlayerAnimScript
     public void commitAttack(UnitController targetUnit)
@@ -245,7 +250,7 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
     public void SetCurrentNode(int newNode)
     {
         currentNode = newNode;
-        print("currentNode: " + currentNode);
+        //print("currentNode: " + currentNode);
     }
 
     public int GetCurrentNode()
@@ -278,6 +283,8 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
         moving = false;
         attacking = false;
         GameManager.instance.CheckTurnDone();
+        // Update which spots are taken if a unit moves or dies
+        MapManager.instance.UpdateNodeOccupation();
     }
 
     // Reference for animations

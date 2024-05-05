@@ -13,6 +13,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: 8f85f9a67aa08e344b8a73c6bca1e92a, type: 2}
     - target: {fileID: 3449446700179914030, guid: 32c7bb0047c28f54e8f4140a84d7a0ae, type: 3}
+      propertyPath: unitName
+      value: Lom
+      objectReference: {fileID: 0}
+    - target: {fileID: 3449446700179914030, guid: 32c7bb0047c28f54e8f4140a84d7a0ae, type: 3}
       propertyPath: moveSpeed
       value: 2
       objectReference: {fileID: 0}

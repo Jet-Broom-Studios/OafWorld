@@ -178,7 +178,7 @@ MonoBehaviour:
   unitName: Trooper Bot
   belongsToPlayer: 0
   movePower: 5
-  moveSpeed: 0.1
+  moveSpeed: 2
   attackRange: 6
   attackDamage: 10
   maxHealth: 30
