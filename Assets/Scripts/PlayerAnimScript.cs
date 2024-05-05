@@ -36,19 +36,9 @@ public class PlayerAnimScript : MonoBehaviour
             // Start Walk animation
             if (!anim.GetBool("isWalking"))
                 anim.SetBool("isWalking", true);
-/*            anim.CrossFade("Walking", .1f);
-            anim.SetBool("isWalking", false);*/
         }
-/*        else if (uc.IsAttacking())
+        else if (!anim.GetBool("isAttacking"))  // If not walking or attacking, must be idle (atks handled below)
         {
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(uc.GetCurrentTargetPos()), Time.deltaTime * 5);   //Doesn't seem to work atm
-            anim.SetBool("isAttacking", true);
-            anim.CrossFade("Attack", .1f);
-            anim.SetBool("isAttacking", false);
-        }*/
-        else if (!anim.GetBool("isAttacking"))
-        {
-            //anim.SetBool("isWalking", false);
             // Chance of "look around" idle after a random amount of time
             if (time > timeLim)
             {
@@ -72,13 +62,16 @@ public class PlayerAnimScript : MonoBehaviour
     public void StartAttack(UnitController targetUnit)
     {
         enemyTarget = targetUnit;   // Cannot pass much arguments in animation events unfortunately, so I set a private var in global
-        while (transform.rotation != Quaternion.LookRotation(targetUnit.transform.position - transform.position))   // Sort of works? More of a snap than rotation
+        StartCoroutine(RotateToTarget(enemyTarget));
+    }
+    IEnumerator RotateToTarget(UnitController targetUnit)   // Allows smooth rotating first then attacking - Messes up if you atk then move during rotation? (remove input until complete?)
+    {
+        while (transform.rotation != Quaternion.LookRotation(targetUnit.transform.position - prevPos))
         {
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(targetUnit.transform.position - transform.position), Time.deltaTime * 50);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(targetUnit.transform.position - transform.position), Time.deltaTime * 500);
+            yield return new WaitForEndOfFrame();
         }
-        //transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(targetUnit.transform.position - transform.position), 360f);
         anim.SetBool("isAttacking", true);
-        //anim.CrossFade("Attack", .1f);  // Play the animation, will then call "SendAttack" at proper frame
     }
     private void SendAttack()
     {

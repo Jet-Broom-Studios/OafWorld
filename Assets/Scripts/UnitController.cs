@@ -206,18 +206,6 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
     // Attack the target unit
     public void OrderAttack(UnitController targetUnit)
     {
-        //if (belongsToPlayer)
-        //{
-        //    // This is triggered through animation events, so the animation will call "commitAttack" at the proper frame
-        //    anim.StartAttack(targetUnit);   // This will simply start the animation
-        //}
-        //else    // In theory, this shouldn't need to be here and this whole method should just call "anim.StartAttack(targetUnit)" but the ai is not actually attacking when set up this way
-        //{
-        //    actionPoints--;
-        //    SetIdle(false);
-        //    attacking = true;
-        //    currentTarget = targetUnit;
-        //}
         anim.StartAttack(targetUnit);
     }
     // Contains what used to exist in OrderAttack, now called from PlayerAnimScript
@@ -286,18 +274,4 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
         // Update which spots are taken if a unit moves or dies
         MapManager.instance.UpdateNodeOccupation();
     }
-
-    // Reference for animations
-/*    public bool isMoving()
-    {
-        return moving;
-    }*/
-/*    public bool IsAttacking()
-    {
-        return attacking;
-    }*/
-/*    public Vector3 GetCurrentTargetPos()
-    {
-        return currentTarget.transform.position;
-    }*/
 }
