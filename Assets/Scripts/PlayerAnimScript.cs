@@ -10,6 +10,7 @@ public class PlayerAnimScript : MonoBehaviour
     private float time = 0f;
     private float timeLim;
     private Vector3 prevPos;
+    private Quaternion prevRot;
 
     // Start is called before the first frame update
     void Start()
@@ -23,14 +24,20 @@ public class PlayerAnimScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (transform.position == prevPos)
+        {
+            anim.SetBool("isWalking", false);
+        }
+        // if in a different position than last frame, then they must be moving
         if (transform.position != prevPos)
         {
             // Rotate toward next node
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(transform.position - prevPos), Time.deltaTime * 5);
             // Start Walk animation
-            anim.SetBool("isWalking", true);
-            anim.CrossFade("Walking", .1f);
-            anim.SetBool("isWalking", false);
+            if (!anim.GetBool("isWalking"))
+                anim.SetBool("isWalking", true);
+/*            anim.CrossFade("Walking", .1f);
+            anim.SetBool("isWalking", false);*/
         }
 /*        else if (uc.IsAttacking())
         {
@@ -39,8 +46,9 @@ public class PlayerAnimScript : MonoBehaviour
             anim.CrossFade("Attack", .1f);
             anim.SetBool("isAttacking", false);
         }*/
-        else
+        else if (!anim.GetBool("isAttacking"))
         {
+            //anim.SetBool("isWalking", false);
             // Chance of "look around" idle after a random amount of time
             if (time > timeLim)
             {
@@ -58,18 +66,23 @@ public class PlayerAnimScript : MonoBehaviour
             time += Time.deltaTime;
         }
         prevPos = transform.position;
+        prevRot = transform.rotation;
     }
     private UnitController enemyTarget;
     public void StartAttack(UnitController targetUnit)
     {
         enemyTarget = targetUnit;   // Cannot pass much arguments in animation events unfortunately, so I set a private var in global
-        //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(targetUnit.transform.position - transform.position), Time.deltaTime * 5);     // WIP doesn't do a thing rn :(
+        while (transform.rotation != Quaternion.LookRotation(targetUnit.transform.position - transform.position))   // Sort of works? More of a snap than rotation
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(targetUnit.transform.position - transform.position), Time.deltaTime * 50);
+        }
+        //transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(targetUnit.transform.position - transform.position), 360f);
         anim.SetBool("isAttacking", true);
-        anim.CrossFade("Attack", .1f);  // Play the animation, will then call "SendAttack" at proper frame
-        anim.SetBool("isAttacking", false);
+        //anim.CrossFade("Attack", .1f);  // Play the animation, will then call "SendAttack" at proper frame
     }
-    void SendAttack()
+    private void SendAttack()
     {
         uc.commitAttack(enemyTarget);   // Calls commitAttack from the UnitController which is the original logical side of the interaction
+        anim.SetBool("isAttacking", false);
     }
 }

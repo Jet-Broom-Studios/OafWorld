@@ -292,10 +292,10 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
     {
         return moving;
     }*/
-    public bool IsAttacking()
+/*    public bool IsAttacking()
     {
         return attacking;
-    }
+    }*/
 /*    public Vector3 GetCurrentTargetPos()
     {
         return currentTarget.transform.position;
