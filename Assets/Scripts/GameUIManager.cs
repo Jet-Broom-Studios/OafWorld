@@ -78,7 +78,10 @@ public class GameUIManager : MonoBehaviour
     // Sends which action is selected to UnitController of selected unit
     public void SelectActions(int actionSelection)
     {
-        GameManager.instance.GetSelectedUnit().SelectActions(actionSelection);
-        print("Action " + actionSelection + " has been selected");
+        if (GameManager.instance.GetSelectedUnit() != null)
+        {
+            GameManager.instance.GetSelectedUnit().SelectActions(actionSelection);
+            print("Action " + actionSelection + " has been selected");
+        }
     }
 }

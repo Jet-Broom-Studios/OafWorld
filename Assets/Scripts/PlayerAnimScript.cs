@@ -11,6 +11,7 @@ public class PlayerAnimScript : MonoBehaviour
     private float timeLim;
     private Vector3 prevPos;
     private Quaternion prevRot;
+    private bool isAttacking = false;
 
     // Start is called before the first frame update
     void Start()
@@ -37,14 +38,14 @@ public class PlayerAnimScript : MonoBehaviour
             if (!anim.GetBool("isWalking"))
                 anim.SetBool("isWalking", true);
         }
-        else if (!anim.GetBool("isAttacking"))  // If not walking or attacking, must be idle (atks handled below)
+        else if (!isAttacking)  // If not walking or attacking, must be idle (atks handled below)
         {
             // Chance of "look around" idle after a random amount of time
             if (time > timeLim)
             {
                 int rnd = Random.Range(0, 3);
                 //print("TIME! rnd = " + rnd);
-                if (rnd == 1 && !anim.GetBool("action0") && !anim.GetBool("action1") && !anim.GetBool("action2") && !anim.GetBool("isWalking"))
+                if (rnd == 1/* && !anim.GetBool("action0") && !anim.GetBool("action1") && !anim.GetBool("action2") && !anim.GetBool("isWalking")*/)
                 {
                     anim.SetBool("isLooking", true);
                     anim.CrossFade("LookAround", .1f);
@@ -62,6 +63,7 @@ public class PlayerAnimScript : MonoBehaviour
     public void StartAttack(UnitController targetUnit, int action)
     {
         enemyTarget = targetUnit;   // Cannot pass much arguments in animation events unfortunately, so I set a private var in global
+        isAttacking = true;
         StartCoroutine(RotateToTarget(enemyTarget, action));
     }
     IEnumerator RotateToTarget(UnitController targetUnit, int action)   // Allows smooth rotating first then attacking - Messes up if you atk then move during rotation? (remove input until complete?)
@@ -83,21 +85,23 @@ public class PlayerAnimScript : MonoBehaviour
                 anim.SetBool("action0", true);
                 break;
         }
-        anim.SetBool("isAttacking", true);
     }
     private void SendAction0()
     {
         uc.commitAction(enemyTarget);   // Calls commitAttack from the UnitController which is the original logical side of the interaction
         anim.SetBool("action0", false);
+        isAttacking = false;
     }
     private void SendAction1()
     {
         uc.commitAction(enemyTarget);   // Calls commitAttack from the UnitController which is the original logical side of the interaction
         anim.SetBool("action1", false);
+        isAttacking = false;
     }
     private void SendAction2()
     {
         uc.commitAction(enemyTarget);   // Calls commitAttack from the UnitController which is the original logical side of the interaction
         anim.SetBool("action2", false);
+        isAttacking = false;
     }
 }
