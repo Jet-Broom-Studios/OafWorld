@@ -45,11 +45,13 @@ public class PauseMenu : MonoBehaviour
         isPaused = false;
         Time.timeScale = 1f;
         SceneManager.LoadScene("LevelSelectScene");
+        ResumeGame();
     }
     //sends player back to title scene
     public void QuitGame(){
         isPaused = false;
         Time.timeScale = 1f;
         SceneManager.LoadScene("TitleScene");
+        ResumeGame();
     }
 }
