@@ -17,7 +17,9 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
     // How far this unit can attack
     public int attackRange;
     // How much damage this unit's attack does
-    public int attackDamage;
+    public int attackDamage0;
+    public int attackDamage1;
+    public int attackDamage2;
     // This unit's maximum HP
     public int maxHealth;
 
@@ -46,7 +48,11 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
     // What unit is currently being targeted (can be a friendly unit for beneficial spells, etc.)
     private UnitController currentTarget;
 
+    // script to start animations (which will finalize actions)
     PlayerAnimScript anim;
+
+    // int to select which of the three actions to use when attacking
+    private int action = 0; // Defaults to action0
 
     // Start is called before the first frame update
     void Start()
@@ -110,18 +116,40 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
 
             if (hit)
             {
-                // Damage the target
-                currentTarget.ChangeHealth(-attackDamage);
+                // Damage the target with proper damage depending on selected action
+                if (action == 0)
+                {
+                    currentTarget.ChangeHealth(-attackDamage0);
+                }
+                else if (action == 1)
+                {
+                    currentTarget.ChangeHealth(-attackDamage1);
+                }
+                else if (action == 2)
+                {
+                    currentTarget.ChangeHealth(-attackDamage2);
+                }
             }
             else
             {
-                // Damage the cover (if it exists)
+                // Damage the cover (if it exists) with proper damage depending on selected action
                 print("Missed target!");
                 NodeController targetNode = MapManager.instance.GetNode(currentTarget.currentNode);
                 if (targetNode.GetFrontCover() != null)
                 {
                     print("front cover found!");
-                    targetNode.GetFrontCover().ChangeHealth(-attackDamage);
+                    if (action == 0)
+                    {
+                        targetNode.GetFrontCover().ChangeHealth(-attackDamage0);
+                    }
+                    else if (action == 1)
+                    {
+                        targetNode.GetFrontCover().ChangeHealth(-attackDamage1);
+                    }
+                    else if (action == 2)
+                    {
+                        targetNode.GetFrontCover().ChangeHealth(-attackDamage2);
+                    }
                 }
             }
 
@@ -206,10 +234,10 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
     // Attack the target unit
     public void OrderAttack(UnitController targetUnit)
     {
-        anim.StartAttack(targetUnit);
+        anim.StartAttack(targetUnit, action);
     }
     // Contains what used to exist in OrderAttack, now called from PlayerAnimScript
-    public void commitAttack(UnitController targetUnit)
+    public void commitAction(UnitController targetUnit)
     {
         actionPoints--;
         SetIdle(false);
@@ -273,5 +301,10 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
         GameManager.instance.CheckTurnDone();
         // Update which spots are taken if a unit moves or dies
         MapManager.instance.UpdateNodeOccupation();
+    }
+
+    public void SelectActions(int actionSelection)
+    {
+        action = actionSelection;
     }
 }

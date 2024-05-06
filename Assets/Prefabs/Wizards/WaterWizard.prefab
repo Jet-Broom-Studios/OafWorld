@@ -20,6 +20,18 @@ PrefabInstance:
       propertyPath: moveSpeed
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 3449446700179914030, guid: 32c7bb0047c28f54e8f4140a84d7a0ae, type: 3}
+      propertyPath: attackDamage0
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3449446700179914030, guid: 32c7bb0047c28f54e8f4140a84d7a0ae, type: 3}
+      propertyPath: attackDamage1
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3449446700179914030, guid: 32c7bb0047c28f54e8f4140a84d7a0ae, type: 3}
+      propertyPath: attackDamage2
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 6274267554118263665, guid: 32c7bb0047c28f54e8f4140a84d7a0ae, type: 3}
       propertyPath: m_Name
       value: WaterWizard

@@ -493,7 +493,7 @@ ModelImporter:
       curves: []
       events:
       - time: 0.70270264
-        functionName: SendAttack
+        functionName: SendAction0
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: e9372ede63c4c8c4bb2092bf9d6a8592, type: 3}
         floatParameter: 0
@@ -529,7 +529,7 @@ ModelImporter:
       curves: []
       events:
       - time: 0.7567567
-        functionName: SendAttack
+        functionName: SendAction1
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: e9372ede63c4c8c4bb2092bf9d6a8592, type: 3}
         floatParameter: 0
@@ -565,7 +565,7 @@ ModelImporter:
       curves: []
       events:
       - time: 0.73745173
-        functionName: SendAttack
+        functionName: SendAction2
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: e9372ede63c4c8c4bb2092bf9d6a8592, type: 3}
         floatParameter: 0
@@ -601,7 +601,7 @@ ModelImporter:
       curves: []
       events:
       - time: 0.53667957
-        functionName: SendAttack
+        functionName: SendAction0
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: e9372ede63c4c8c4bb2092bf9d6a8592, type: 3}
         floatParameter: 0
@@ -637,7 +637,7 @@ ModelImporter:
       curves: []
       events:
       - time: 0.5405405
-        functionName: SendAttack
+        functionName: SendAction1
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: e9372ede63c4c8c4bb2092bf9d6a8592, type: 3}
         floatParameter: 0
@@ -673,7 +673,7 @@ ModelImporter:
       curves: []
       events:
       - time: 0.64092666
-        functionName: SendAttack
+        functionName: SendAction2
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: e9372ede63c4c8c4bb2092bf9d6a8592, type: 3}
         floatParameter: 0
@@ -709,7 +709,7 @@ ModelImporter:
       curves: []
       events:
       - time: 0.7876448
-        functionName: SendAttack
+        functionName: SendAction0
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: e9372ede63c4c8c4bb2092bf9d6a8592, type: 3}
         floatParameter: 0
@@ -745,7 +745,7 @@ ModelImporter:
       curves: []
       events:
       - time: 0.74903476
-        functionName: SendAttack
+        functionName: SendAction1
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: e9372ede63c4c8c4bb2092bf9d6a8592, type: 3}
         floatParameter: 0
@@ -781,7 +781,7 @@ ModelImporter:
       curves: []
       events:
       - time: 0.5637065
-        functionName: SendAttack
+        functionName: SendAction2
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: e9372ede63c4c8c4bb2092bf9d6a8592, type: 3}
         floatParameter: 0
@@ -817,7 +817,7 @@ ModelImporter:
       curves: []
       events:
       - time: 0.6563707
-        functionName: SendAttack
+        functionName: SendAction0
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: e9372ede63c4c8c4bb2092bf9d6a8592, type: 3}
         floatParameter: 0
@@ -853,7 +853,7 @@ ModelImporter:
       curves: []
       events:
       - time: 0.74903476
-        functionName: SendAttack
+        functionName: SendAction1
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
@@ -889,7 +889,7 @@ ModelImporter:
       curves: []
       events:
       - time: 0.7799228
-        functionName: SendAttack
+        functionName: SendAction2
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0

@@ -74,4 +74,11 @@ public class GameUIManager : MonoBehaviour
         apText.gameObject.SetActive(isEnabled);
         mpText.gameObject.SetActive(isEnabled);
     }
+
+    // Sends which action is selected to UnitController of selected unit
+    public void SelectActions(int actionSelection)
+    {
+        GameManager.instance.GetSelectedUnit().SelectActions(actionSelection);
+        print("Action " + actionSelection + " has been selected");
+    }
 }

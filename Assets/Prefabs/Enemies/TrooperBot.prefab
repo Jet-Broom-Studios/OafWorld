@@ -180,7 +180,9 @@ MonoBehaviour:
   movePower: 5
   moveSpeed: 2
   attackRange: 6
-  attackDamage: 10
+  attackDamage0: 10
+  attackDamage1: 0
+  attackDamage2: 0
   maxHealth: 30
   neutralMaterial: {fileID: 2100000, guid: 9d12f9e2c7652cf41b37ba9cfa5cd3d1, type: 2}
   targetableMaterial: {fileID: 2100000, guid: cded32fccee7ee849beb5773f9e3e448, type: 2}
