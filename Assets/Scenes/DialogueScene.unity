@@ -175,16 +175,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 866a6262435625646b6ba3a6a0fd44ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  level: 0
   text: {fileID: 1240816647}
   line: []
   speed: 0.1
   speaker: 0
   background: {fileID: 796447342}
   wizards:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1399206031}
+  - {fileID: 418821849}
+  - {fileID: 1875882939}
+  - {fileID: 468287152}
   backgroundMusic:
   - {fileID: 6170499234584163533, guid: f4d900a240d4c084996bebd3246d83ab, type: 3}
   - {fileID: 0}
@@ -574,6 +575,16 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &418821849 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8156586045460304331, guid: 7aaaccd0a58ddbb48aa9f5b8c7e73ad4, type: 3}
+  m_PrefabInstance: {fileID: 1546861371}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &468287152 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2157517120680122373, guid: 670f26fa901ac5040b82bddab85062dc, type: 3}
+  m_PrefabInstance: {fileID: 1863752637}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &521757092
 GameObject:
   m_ObjectHideFlags: 0
@@ -1227,6 +1238,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1240816645}
   m_CullTransparentMesh: 1
+--- !u!1 &1399206031 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1612024972053353282, guid: 48953a47d8f85f947945a12ed307b0f8, type: 3}
+  m_PrefabInstance: {fileID: 1131608607}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1546861371
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1468,6 +1484,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 670f26fa901ac5040b82bddab85062dc, type: 3}
+--- !u!1 &1875882939 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 150906692222900998, guid: d3afdf961915c9b4b82f6747e1361dcd, type: 3}
+  m_PrefabInstance: {fileID: 217848988}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

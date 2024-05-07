@@ -5,9 +5,13 @@ using TMPro;
 using System.IO;
 using System;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Dialogue : MonoBehaviour
 {
+    private GameObject dsm;
+
+    public int level = 0;
     public TextMeshProUGUI text;
     public List<string> line;
     public float speed;
@@ -21,6 +25,7 @@ public class Dialogue : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        dsm = GameObject.FindGameObjectWithTag("dsm");
         getScript();
         text.text = string.Empty;
         StartDialogue();
@@ -130,15 +135,26 @@ public class Dialogue : MonoBehaviour
             wizards[1].SetActive(false);
             wizards[2].SetActive(false);
             wizards[3].SetActive(false);
+            SceneManager.LoadScene(dsm.GetComponent<DialogueSelectManager>().currLevel);
+
         }
     }
 
     void getScript()
     {
+        int scriptChoice;
         string scriptLine;
         try
         {
-            StreamReader sr = new StreamReader("Script");
+            if (dsm.GetComponent<DialogueSelectManager>().currLevel == "TestScene")
+            {
+                scriptChoice = 0;
+            }
+            else
+            {
+                scriptChoice = 1;
+            }
+            StreamReader sr = new StreamReader(dsm.GetComponent<DialogueSelectManager>().levelScripts[scriptChoice]);
             scriptLine = sr.ReadLine();
             while(scriptLine != null)
             {
