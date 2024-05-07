@@ -13,6 +13,11 @@ public class GameManager : MonoBehaviour
     private UnitController selectedUnit;
     // Whether it is currently the player's turn or not
     private bool isPlayerTurn;
+    public static bool endGame;
+    public static bool l1Complete;
+    public static bool l2Complete;
+    public static bool l3Complete;
+
 
     // Called when the object is initialized
     void Awake()

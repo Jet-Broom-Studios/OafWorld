@@ -7,7 +7,7 @@ public class DialogueSelectManager : MonoBehaviour
 {
 
     public string[] levelScripts;
-    public string currLevel;
+    public static string currLevel;
     // Start is called before the first frame update
     void Start()
     {

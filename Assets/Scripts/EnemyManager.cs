@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class EnemyManager : MonoBehaviour
 {
     public static EnemyManager instance = null;
 
     // List of enemies that can still perform actions
     private List<UnitController> enemyList;
+    public static int enemyCount;
     // Enemy we are currently ordering around
     UnitController currentEnemy;
     // Whether we have counted all the enemies this turn
@@ -39,6 +40,32 @@ public class EnemyManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (enemyList.Count > 0)
+        {
+            enemyCount = enemyList.Count;
+        }
+        else
+        {
+            if (DialogueSelectManager.currLevel == "Level1")
+            {
+                GameManager.l1Complete = true;
+            }
+            else if (DialogueSelectManager.currLevel == "Level2")
+            {
+                GameManager.l2Complete = true;
+            }
+            else if (DialogueSelectManager.currLevel == "Level3")
+            {
+                GameManager.l3Complete = true;
+            }
+            if (GameManager.l1Complete && GameManager.l2Complete && GameManager.l3Complete)
+            {
+                GameManager.endGame = true;
+                DialogueSelectManager.currLevel = "";
+                SceneManager.LoadScene("DialogueScene");
+
+            }
+        }
         if (!GameManager.instance.IsPlayerTurn())
         {
             if (!enemiesCounted)

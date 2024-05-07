@@ -135,7 +135,7 @@ public class Dialogue : MonoBehaviour
             wizards[1].SetActive(false);
             wizards[2].SetActive(false);
             wizards[3].SetActive(false);
-            SceneManager.LoadScene(dsm.GetComponent<DialogueSelectManager>().currLevel);
+            SceneManager.LoadScene(DialogueSelectManager.currLevel);
 
         }
     }
@@ -146,17 +146,21 @@ public class Dialogue : MonoBehaviour
         string scriptLine;
         try
         {
-            if (dsm.GetComponent<DialogueSelectManager>().currLevel == "Level1")
+            if (DialogueSelectManager.currLevel == "Level1")
             {
                 scriptChoice = 0;
             }
-            else if (dsm.GetComponent<DialogueSelectManager>().currLevel == "Level2")
+            else if (DialogueSelectManager.currLevel == "Level2")
             {
                 scriptChoice = 1;
             }
-            else
+            else if (DialogueSelectManager.currLevel == "Level3")
             {
                 scriptChoice = 2;
+            }
+            else if (GameManager.endGame == true)
+            {
+                scriptChoice = 3;
             }
             StreamReader sr = new StreamReader(dsm.GetComponent<DialogueSelectManager>().levelScripts[scriptChoice]);
             scriptLine = sr.ReadLine();
