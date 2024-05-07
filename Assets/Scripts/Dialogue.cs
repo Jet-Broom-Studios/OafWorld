@@ -35,7 +35,7 @@ public class Dialogue : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetMouseButtonDown(0))
+        if(Input.GetMouseButtonDown(0) && PauseMenu.isPaused == false)
         {
             if(text.text == line[index])
             {
@@ -142,17 +142,21 @@ public class Dialogue : MonoBehaviour
 
     void getScript()
     {
-        int scriptChoice;
+        int scriptChoice = 0;
         string scriptLine;
         try
         {
-            if (dsm.GetComponent<DialogueSelectManager>().currLevel == "TestScene")
+            if (dsm.GetComponent<DialogueSelectManager>().currLevel == "Level1")
             {
                 scriptChoice = 0;
             }
-            else
+            else if (dsm.GetComponent<DialogueSelectManager>().currLevel == "Level2")
             {
                 scriptChoice = 1;
+            }
+            else
+            {
+                scriptChoice = 2;
             }
             StreamReader sr = new StreamReader(dsm.GetComponent<DialogueSelectManager>().levelScripts[scriptChoice]);
             scriptLine = sr.ReadLine();
