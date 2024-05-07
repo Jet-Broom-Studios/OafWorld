@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Fire Sword
   targetAllies: 0
-  range: 2
+  range: 1
   damage: 20
   manaCost: 15
   ignoreCover: 1

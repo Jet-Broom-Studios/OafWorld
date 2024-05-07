@@ -44,8 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4829ab2f3ea9a9d4c9cd9d4f85d28284, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  abilityName: Earth Attack
+  abilityName: These Hands
   targetAllies: 0
-  range: 6
+  range: 1
   damage: 5
+  manaCost: 0
   ignoreCover: 0
