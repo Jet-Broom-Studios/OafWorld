@@ -21,6 +21,7 @@ public class LevelSelectManager : MonoBehaviour
     public void selectLevel(string level)
     {
         DialogueSelectManager.currLevel = level;
+        MusicManager.instance.GetComponent<AudioSource>().Stop();
         SceneManager.LoadScene("DialogueScene");
     }
 }

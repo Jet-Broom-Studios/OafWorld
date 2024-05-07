@@ -8,6 +8,7 @@ public class EnemyManager : MonoBehaviour
 
     // List of enemies that can still perform actions
     private List<UnitController> enemyList;
+    private List<UnitController> remainingEnemies;
     public static int enemyCount;
     // Enemy we are currently ordering around
     UnitController currentEnemy;
@@ -35,16 +36,22 @@ public class EnemyManager : MonoBehaviour
         }
 
         enemyList = new List<UnitController>();
+        remainingEnemies = new List<UnitController>();
+        UnitController[] unitList = FindObjectsByType<UnitController>(FindObjectsSortMode.None);
+        for (int i = 0; i < unitList.Length; i++)
+        {
+            if (!unitList[i].belongsToPlayer)
+            {
+                remainingEnemies.Add(unitList[i]);
+            }
+        }
+        enemyCount = remainingEnemies.Count;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (enemyList.Count > 0)
-        {
-            enemyCount = enemyList.Count;
-        }
-        else
+        if (enemyCount <= 0)
         {
             if (DialogueSelectManager.currLevel == "Level1")
             {
@@ -62,8 +69,11 @@ public class EnemyManager : MonoBehaviour
             {
                 GameManager.endGame = true;
                 DialogueSelectManager.currLevel = "";
-                SceneManager.LoadScene("DialogueScene");
-
+                DelaySceneChange(100);
+            }
+            else
+            {
+                DelaySceneChange(100);
             }
         }
         if (!GameManager.instance.IsPlayerTurn())
@@ -365,5 +375,25 @@ public class EnemyManager : MonoBehaviour
     {
         canMove = true;
         canAttack = true;
+    }
+
+    void DelaySceneChange(float delay)
+    {
+        StartCoroutine(DelayAction(delay));
+    }
+
+    IEnumerator DelayAction(float delay)
+    {
+        yield return new WaitForSecondsRealtime(delay);
+        if (GameManager.l1Complete && GameManager.l2Complete && GameManager.l3Complete)
+        {
+            GameManager.endGame = true;
+            DialogueSelectManager.currLevel = "";
+            SceneManager.LoadScene("DialogueScene");
+        }
+        else
+        {
+            SceneManager.LoadScene("LevelSelectScene");
+        }
     }
 }

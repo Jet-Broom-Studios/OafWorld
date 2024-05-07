@@ -177,6 +177,10 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
         // TODO: Maybe do some animation or whatnot depending on what unit this is/how it died?
         // Right now this just makes the unit disappear.
         print(name + " has died!");
+        if (!belongsToPlayer)
+        {
+            EnemyManager.enemyCount -= 1;
+        }
         Destroy(gameObject);
     }
 
