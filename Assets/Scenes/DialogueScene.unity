@@ -957,8 +957,9 @@ MonoBehaviour:
   backgrounds:
   - {fileID: 2100000, guid: 72634bdbd27e5904c8878bc31cfef2af, type: 2}
   - {fileID: 2100000, guid: 23761078f84868f46a73e0ce61f7c322, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 8830a8bfdb40d204ebb587160c7330e9, type: 2}
+  - {fileID: 2100000, guid: ec6af2913fdf16a46ace6adaa2ae7a7f, type: 2}
+  - {fileID: 2100000, guid: 2ec5ae7a11f4f5c469038a7a4dc4f0cd, type: 2}
   bg: {fileID: 995809503}
 --- !u!1 &995809503
 GameObject:
