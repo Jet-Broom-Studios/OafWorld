@@ -103,7 +103,7 @@ public class GameManager : MonoBehaviour
     }
 
     // Set which units can be targeted from the given position
-    internal void SetTargets(int sourceNode, int attackRange, bool byPlayer)
+    internal void SetTargets(int sourceNode, int range, bool targetEnemies)
     {
         //print("Setting targets...");
         ResetTargets();
@@ -111,13 +111,12 @@ public class GameManager : MonoBehaviour
         //print("Found " + unitList.Length + " potential targets");
         for (int i = 0; i < unitList.Length; i++)
         {
-            // TODO: Allow targetting friendly units for beneficial spells
             UnitController unit = unitList[i];
             int targetNode = unit.GetCurrentNode();
             // Mark any unit as targetable if both:
-            // They are on opposite teams from the source
+            // They belong to the specified side
             // They are within range
-            if (unit.belongsToPlayer != byPlayer && MapManager.instance.GetDistBetweenNodes(sourceNode, targetNode) <= attackRange)
+            if (unit.belongsToPlayer != targetEnemies && MapManager.instance.GetDistBetweenNodes(sourceNode, targetNode) <= range)
             {
                 unit.SetTargetable(true);
                 //print("Marked a target!");

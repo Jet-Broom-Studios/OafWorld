@@ -14,14 +14,16 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
     public int movePower;
     // How fast the unit moves between nodes (purely visual)
     public float moveSpeed;
-    // How far this unit can attack
+    // (OBSOLETE)How far this unit can attack 
     public int attackRange;
-    // How much damage this unit's attack does
+    // (OBSOLETE)How much damage this unit's attack does
     public int attackDamage0;
     public int attackDamage1;
     public int attackDamage2;
     // This unit's maximum HP
     public int maxHealth;
+    // The abilities that this unit has (attacks, spells, etc.)
+    public UnitAbility[] abilities;
 
     // Default node material
     public Material neutralMaterial;
@@ -119,21 +121,10 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
             print(name + " is attacking " + currentTarget.unitName + " with a " + chanceToHit + " chance to hit.");
             bool hit = (Random.value < chanceToHit);
 
-            if (hit)
+            if (hit || abilities[action].ignoreCover)
             {
                 // Damage the target with proper damage depending on selected action
-                if (action == 0)
-                {
-                    currentTarget.ChangeHealth(-attackDamage0);
-                }
-                else if (action == 1)
-                {
-                    currentTarget.ChangeHealth(-attackDamage1);
-                }
-                else if (action == 2)
-                {
-                    currentTarget.ChangeHealth(-attackDamage2);
-                }
+                currentTarget.ChangeHealth(-abilities[action].damage);
             }
             else
             {
@@ -142,19 +133,8 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
                 NodeController targetNode = MapManager.instance.GetNode(currentTarget.currentNode);
                 if (targetNode.GetFrontCover() != null)
                 {
-                    print("front cover found!");
-                    if (action == 0)
-                    {
-                        targetNode.GetFrontCover().ChangeHealth(-attackDamage0);
-                    }
-                    else if (action == 1)
-                    {
-                        targetNode.GetFrontCover().ChangeHealth(-attackDamage1);
-                    }
-                    else if (action == 2)
-                    {
-                        targetNode.GetFrontCover().ChangeHealth(-attackDamage2);
-                    }
+                    //print("front cover found!");
+                    targetNode.GetFrontCover().ChangeHealth(-abilities[action].damage);
                 }
             }
 
@@ -205,9 +185,14 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
     {
         if (belongsToPlayer)
         {
+            // Trying to target a friendly unit (for like a healing spell or something)
+            if (targetable && GameManager.instance.GetSelectedUnit() != null)
+            {
+                GameManager.instance.GetSelectedUnit().OrderAttack(this);
+            }
             // Trying to select a unit
             // Can't select a unit that is currently performing an action (i.e. moving or shooting)
-            if (idle)
+            else if (idle)
             {
                 GameManager.instance.SetSelectedUnit(this);
             }
@@ -331,5 +316,15 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
     public void SelectActions(int actionSelection)
     {
         action = actionSelection;
+        if (action >= abilities.Length)
+        {
+            print("ERROR: Ability does not exist!");
+            SelectActions(0); // Failsafe
+        }
+        else
+        {
+            bool targetEnemies = (belongsToPlayer && !abilities[action].targetAllies) || (!belongsToPlayer && abilities[action].targetAllies);
+            GameManager.instance.SetTargets(currentNode, abilities[action].range, targetEnemies);
+        }
     }
 }
