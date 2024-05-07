@@ -1,5 +1,7 @@
 bg
 0
+bgm
+2
 Z
 Ahhhh... it's over...
 A
@@ -66,7 +68,6 @@ Y-yeah, I'm sure Volkan... these golems have a strange scent...
 It's easy to... oh no...
 R
 I told ya, why it always gotta be a dank, scary forest!
-pause
 Z
 I-I don't know if I'm cut out for this...
 R
@@ -79,6 +80,8 @@ Zephyr, keep us moving.
 Z
 Yes sir...
 bg
+3
+bgm
 3
 A
 I thought I wouldn't be surprised... but what is THAT!

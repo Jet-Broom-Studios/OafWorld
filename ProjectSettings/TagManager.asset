@@ -11,6 +11,7 @@ TagManager:
   - music
   - GameOver
   - Win
+  - bgm
   layers:
   - Default
   - TransparentFX

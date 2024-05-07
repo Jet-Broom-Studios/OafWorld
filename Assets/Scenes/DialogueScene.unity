@@ -188,9 +188,11 @@ MonoBehaviour:
   - {fileID: 468287152}
   backgroundMusic:
   - {fileID: 6170499234584163533, guid: f4d900a240d4c084996bebd3246d83ab, type: 3}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1095945408843242059, guid: 0c271afa823062f41bbf8cbe5d2a72ed, type: 3}
+  - {fileID: 3592534036455039390, guid: b68ca503e43a3f1488e7595d65ad1b73, type: 3}
+  - {fileID: 1722563196637060859, guid: c4951dfb9a4a4dd4996532880d7d09fd, type: 3}
+  - {fileID: 4465071588255235418, guid: 095780f234456cc4ea8133126a7e78e9, type: 3}
+  - {fileID: 910331408008924922, guid: b213bc3118799b546b4109b94f7ac7da, type: 3}
 --- !u!223 &134286957
 Canvas:
   m_ObjectHideFlags: 0
@@ -704,6 +706,8 @@ MonoBehaviour:
   - Volkan
   - Rocky
   - Zephyr
+  - All
+  - Narration
   dialogueBox: {fileID: 134286954}
 --- !u!1 &684804009
 GameObject:

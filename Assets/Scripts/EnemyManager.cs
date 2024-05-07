@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 public class EnemyManager : MonoBehaviour
 {
     public static EnemyManager instance = null;
-
     // List of enemies that can still perform actions
     private List<UnitController> enemyList;
     private List<UnitController> remainingEnemies;
@@ -48,13 +47,17 @@ public class EnemyManager : MonoBehaviour
         enemyCount = remainingEnemies.Count;
     }
 
+    void Start()
+    {
+
+    }
+
     // Update is called once per frame
     void Update()
     {
         if (enemyCount <= 0)
         {
             GameEnd.gameWin = true;
-            GameEnd.win.SetActive(true);
             if (DialogueSelectManager.currLevel == "Level1")
             {
                 GameManager.l1Complete = true;
@@ -382,12 +385,12 @@ public class EnemyManager : MonoBehaviour
         {
             GameManager.endGame = true;
             DialogueSelectManager.currLevel = "";
-            GameEnd.win.SetActive(false);
+            GameEnd.gameWin = false;
             SceneManager.LoadScene("DialogueScene");
         }
         else
         {
-            GameEnd.win.SetActive(false);
+            GameEnd.gameWin = false;
             SceneManager.LoadScene("LevelSelectScene");
         }
     }

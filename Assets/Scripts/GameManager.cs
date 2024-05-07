@@ -61,7 +61,6 @@ public class GameManager : MonoBehaviour
         if (playerUnitCount <= 0)
         {
             GameEnd.gameOver = true;
-            GameEnd.loss.SetActive(true);
             DelaySceneChange(5);
         }
     }
@@ -74,10 +73,10 @@ public class GameManager : MonoBehaviour
     IEnumerator DelayAction(float delay)
     {
         yield return new WaitForSecondsRealtime(delay);
-        GameEnd.loss.SetActive(false);
+        GameEnd.gameOver = false;
         SceneManager.LoadScene("TitleScene");
     }
-    
+
     public void SetSelectedUnit(UnitController unit)
     {
         selectedUnit = unit;

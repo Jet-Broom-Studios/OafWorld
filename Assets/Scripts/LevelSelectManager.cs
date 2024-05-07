@@ -8,7 +8,7 @@ public class LevelSelectManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        StopAllCoroutines();
     }
 
     // Update is called once per frame

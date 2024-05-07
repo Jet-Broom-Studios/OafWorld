@@ -21,6 +21,8 @@ public class Dialogue : MonoBehaviour
     public GameObject[] wizards;
     public GameObject[] backgroundMusic;
 
+    private GameObject currentSong;
+
     private int index;
     // Start is called before the first frame update
     void Start()
@@ -30,7 +32,7 @@ public class Dialogue : MonoBehaviour
         getScript();
         text.text = string.Empty;
         StartDialogue();
-        chooseAudio();
+        
     }
 
     // Update is called once per frame
@@ -54,6 +56,8 @@ public class Dialogue : MonoBehaviour
     {
         index = 0;
         getBG();
+        index++;
+        chooseAudio();
         index++;
 
         if(line[index].ToUpper() == "A")
@@ -81,7 +85,7 @@ public class Dialogue : MonoBehaviour
 
     IEnumerator TypeLine()
     {
-        if(line[index] != "bg")
+        if(line[index] != "bg" && line[index] != "bgm")
         {
             foreach (char c in line[index].ToCharArray())
             {
@@ -116,15 +120,25 @@ public class Dialogue : MonoBehaviour
                 speaker = 3;
                 index++;
             }
-
+            else if (line[index].ToUpper() == "ALL")
+            {
+                speaker = 4;
+                index++;
+            }
+            else if (line[index].ToUpper() == "N")
+            {
+                speaker = 5;
+                index++;                
+            }
             text.text = string.Empty;
-            if(line[index] != "bg")
+            if(line[index] != "bg" && line[index] != "bgm")
             {
                 StartCoroutine(TypeLine());
             }
             else
             {
                 getBG();
+                chooseAudio();
                 NextLine();
             }
         }
@@ -163,7 +177,7 @@ public class Dialogue : MonoBehaviour
             {
                 scriptChoice = 3;
             }
-            
+
             StreamReader sr = new StreamReader(dsm.GetComponent<DialogueSelectManager>().levelScripts[scriptChoice]);
             scriptLine = sr.ReadLine();
             while(scriptLine != null)
@@ -182,8 +196,47 @@ public class Dialogue : MonoBehaviour
     void chooseAudio()
     {
         int choice = 0;
-        Instantiate(backgroundMusic[choice],new Vector3(0,0,0), Quaternion.identity);
-
+        if(line[index] == "bgm")
+        {
+            index++;
+            if (line[index] == "0")
+            {
+                choice = 0;
+            }
+            else if (line[index] == "1")
+            {
+                choice = 1;
+            }
+            else if (line[index] == "2")
+            {
+                choice = 2;
+            }
+            else if (line[index] == "3")
+            {
+                choice = 3;
+            }
+            else if (line[index] == "4")
+            {
+                choice = 4;
+            }
+            else if (line[index] == "5")
+            {
+                choice = 5;
+            }
+            
+            if (currentSong == null)
+            {
+                Instantiate(backgroundMusic[choice],new Vector3(0,0,0), Quaternion.identity);
+                currentSong = GameObject.FindGameObjectWithTag("bgm");
+            }
+            else
+            {
+                Destroy(currentSong);
+                Instantiate(backgroundMusic[choice],new Vector3(0,0,0), Quaternion.identity);
+                currentSong = GameObject.FindGameObjectWithTag("bgm");
+            }
+        }
+        
     }
 
     void getBG()
@@ -191,6 +244,7 @@ public class Dialogue : MonoBehaviour
         if (line[index] == "bg")
         {
             index++;
+            print(line[index]);
             background.GetComponent<Backgrounds>().bg.GetComponent<Image>().material = background.GetComponent<Backgrounds>().backgrounds[Int32.Parse(line[index])];
         }
     }

@@ -180,6 +180,7 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
         if (!belongsToPlayer)
         {
             EnemyManager.enemyCount -= 1;
+            print(EnemyManager.enemyCount);
         }
         else
         {

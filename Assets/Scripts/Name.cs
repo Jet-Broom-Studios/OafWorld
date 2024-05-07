@@ -58,5 +58,9 @@ public class Name : MonoBehaviour
                 text.color = new Color32(135, 206, 235, 255);    
 
             }
+            else
+            {
+                text.color= new Color32(0, 0, 0, 255);
+            }
     }
 }

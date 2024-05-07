@@ -47,5 +47,5 @@ MonoBehaviour:
   abilityName: Earth Attack
   targetAllies: 0
   range: 6
-  damage: 5
+  damage: 30
   ignoreCover: 0

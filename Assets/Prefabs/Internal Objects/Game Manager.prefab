@@ -147,7 +147,7 @@ GameObject:
   - component: {fileID: 2400109202942580012}
   m_Layer: 0
   m_Name: win
-  m_TagString: Untagged
+  m_TagString: Win
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1130,7 +1130,7 @@ GameObject:
   - component: {fileID: 6547754376840382818}
   m_Layer: 0
   m_Name: Background
-  m_TagString: Untagged
+  m_TagString: GameOver
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1982,6 +1982,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9232d18c1d58f74da33dfd03480d143, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  w: {fileID: 0}
+  l: {fileID: 0}
 --- !u!1 &8782002607541115852
 GameObject:
   m_ObjectHideFlags: 0

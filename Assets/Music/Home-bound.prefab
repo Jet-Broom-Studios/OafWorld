@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 254652634773076632}
   m_Layer: 0
   m_Name: Home-bound
-  m_TagString: Untagged
+  m_TagString: bgm
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
