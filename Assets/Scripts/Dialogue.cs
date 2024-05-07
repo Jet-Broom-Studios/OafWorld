@@ -163,6 +163,7 @@ public class Dialogue : MonoBehaviour
             {
                 scriptChoice = 3;
             }
+            
             StreamReader sr = new StreamReader(dsm.GetComponent<DialogueSelectManager>().levelScripts[scriptChoice]);
             scriptLine = sr.ReadLine();
             while(scriptLine != null)
