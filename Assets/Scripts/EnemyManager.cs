@@ -103,7 +103,7 @@ public class EnemyManager : MonoBehaviour
                     ResetUnitVars();
                 }
 
-                if (currentEnemy.actionPoints > 0)
+                if (currentEnemy.actionPoints > 0 && currentEnemy.IsIdle())
                 {
                     GameManager.instance.SetSelectedUnit(currentEnemy);
 

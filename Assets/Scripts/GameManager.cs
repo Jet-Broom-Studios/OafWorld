@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
         {
             print("Unit selected!");
             int currentNode = unit.GetCurrentNode();
-            SetTargets(currentNode, unit.attackRange, unit.belongsToPlayer);
+            SetTargets(currentNode, unit.abilities[unit.GetAction()].range, unit.belongsToPlayer);
             MapManager.instance.GeneratePathsFromNode(currentNode, unit.movePower, unit.belongsToPlayer);
         }
 

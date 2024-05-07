@@ -106,8 +106,8 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
                 if (nodePath.Count == 0)
                 {
                     // If there's no more nodes left, stop moving. We've reached our destination!
-                    FinishAction();
                     this.currentNode = nodeNum;
+                    FinishAction();
                 }
             }
         }
@@ -222,6 +222,8 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
             wizSounds.PlayWalk();
         }
         this.nodePath = nodePath;
+        // Set the target tile to be occupied ahead of time
+        MapManager.instance.GetNode(nodePath[0]).SetOccupied(true);
     }
 
     public void OrderMove(int node)
@@ -272,6 +274,11 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
     {
         currentNode = newNode;
         //print("currentNode: " + currentNode);
+    }
+
+    public int GetAction()
+    {
+        return action;
     }
 
     public int GetCurrentNode()
