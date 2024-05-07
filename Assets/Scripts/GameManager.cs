@@ -118,13 +118,18 @@ public class GameManager : MonoBehaviour
         // Disable the UI if it's not the player's turn
         GameUIManager.instance.SetEnabled(isPlayerTurn);
 
-        // Replenish action points of the side who gets to do stuff
+        // Replenish action points of the side who gets to do stuff/RegenMP
         UnitController[] unitList = FindObjectsByType<UnitController>(FindObjectsSortMode.None);
         for (int i = 0; i < unitList.Length; i++)
         {
             if (unitList[i].belongsToPlayer == isPlayerTurn)
             {
                 unitList[i].actionPoints = 2;
+                unitList[i].currMP += unitList[i].maxMP / 10;
+                if(unitList[i].currMP > unitList[i].maxMP)
+                {
+                    unitList[i].currMP = unitList[i].maxMP;
+                }
             }
         }
     }

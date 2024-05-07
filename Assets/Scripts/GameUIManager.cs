@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +12,8 @@ public class GameUIManager : MonoBehaviour
     public Text hpText;
     public Text apText;
     public Text mpText;
+
+    public TextMeshProUGUI[] abilityText;
     public Button endTurnButton;
     public Image charCard;
     private bool isEnabled;
@@ -43,7 +46,10 @@ public class GameUIManager : MonoBehaviour
             unitNameText.text = selectedUnit.unitName;
             hpText.text = "HP\n" + selectedUnit.currentHealth + "/" + selectedUnit.maxHealth;
             apText.text = "AP\n" + selectedUnit.actionPoints.ToString();
-            mpText.text = "MP\n" + "0";
+            mpText.text = "MP\n" + selectedUnit.currMP + "/" + selectedUnit.maxMP;
+            abilityText[0].text = selectedUnit.abilities[0].abilityName + "\nMP: " + selectedUnit.abilities[0].manaCost;
+            abilityText[1].text = selectedUnit.abilities[1].abilityName + "\nMP: " + selectedUnit.abilities[1].manaCost;
+            abilityText[2].text = selectedUnit.abilities[2].abilityName + "\nMP: " + selectedUnit.abilities[2].manaCost;
         }
         else
         {
@@ -51,6 +57,9 @@ public class GameUIManager : MonoBehaviour
             hpText.text = "HP";
             apText.text = "AP";
             mpText.text = "MP";
+            abilityText[0].text = "Attack";
+            abilityText[1].text = "Spell 1";
+            abilityText[2].text = "Spell 2";
         }
     }
 

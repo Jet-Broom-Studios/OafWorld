@@ -13,8 +13,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: 3fed9b24b9dcb614f96b8b3d59947437, type: 2}
     - target: {fileID: 3449446700179914030, guid: 32c7bb0047c28f54e8f4140a84d7a0ae, type: 3}
+      propertyPath: maxMP
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 3449446700179914030, guid: 32c7bb0047c28f54e8f4140a84d7a0ae, type: 3}
       propertyPath: unitName
       value: Aquarion
+      objectReference: {fileID: 0}
+    - target: {fileID: 3449446700179914030, guid: 32c7bb0047c28f54e8f4140a84d7a0ae, type: 3}
+      propertyPath: maxHealth
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 3449446700179914030, guid: 32c7bb0047c28f54e8f4140a84d7a0ae, type: 3}
       propertyPath: moveSpeed
@@ -34,7 +42,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3449446700179914030, guid: 32c7bb0047c28f54e8f4140a84d7a0ae, type: 3}
       propertyPath: abilities.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3449446700179914030, guid: 32c7bb0047c28f54e8f4140a84d7a0ae, type: 3}
       propertyPath: abilities.Array.data[0]
@@ -44,6 +52,10 @@ PrefabInstance:
       propertyPath: abilities.Array.data[1]
       value: 
       objectReference: {fileID: 8051441819540130435, guid: e04a15460044d4f4785aef0648d96cf7, type: 3}
+    - target: {fileID: 3449446700179914030, guid: 32c7bb0047c28f54e8f4140a84d7a0ae, type: 3}
+      propertyPath: abilities.Array.data[2]
+      value: 
+      objectReference: {fileID: 4367600197572540619, guid: 2a45e1e09c443bc42b85caf5551cb952, type: 3}
     - target: {fileID: 6274267554118263665, guid: 32c7bb0047c28f54e8f4140a84d7a0ae, type: 3}
       propertyPath: m_Name
       value: WaterWizard

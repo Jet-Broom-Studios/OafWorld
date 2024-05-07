@@ -2079,6 +2079,28 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9188446476393249053, guid: e667a813300e0fe4eaf6768edf5f44bb, type: 3}
   m_PrefabInstance: {fileID: 1460608930}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1311478532 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9098016057564021255, guid: 23cac7d05864f1a4aa9c20c7d3bd855f, type: 3}
+  m_PrefabInstance: {fileID: 1616007515}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1340037418 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7521262976499242673, guid: 23cac7d05864f1a4aa9c20c7d3bd855f, type: 3}
+  m_PrefabInstance: {fileID: 1616007515}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1347894422
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2871,6 +2893,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 4823701896981137020, guid: 23cac7d05864f1a4aa9c20c7d3bd855f, type: 3}
+      propertyPath: m_fontSize
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 4823701896981137020, guid: 23cac7d05864f1a4aa9c20c7d3bd855f, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 5186450169680778195, guid: 23cac7d05864f1a4aa9c20c7d3bd855f, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -2950,6 +2980,38 @@ PrefabInstance:
     - target: {fileID: 5186450169680778195, guid: 23cac7d05864f1a4aa9c20c7d3bd855f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6096226676144552334, guid: 23cac7d05864f1a4aa9c20c7d3bd855f, type: 3}
+      propertyPath: abilityText.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6096226676144552334, guid: 23cac7d05864f1a4aa9c20c7d3bd855f, type: 3}
+      propertyPath: abilityText.Array.data[0]
+      value: 
+      objectReference: {fileID: 1700442327}
+    - target: {fileID: 6096226676144552334, guid: 23cac7d05864f1a4aa9c20c7d3bd855f, type: 3}
+      propertyPath: abilityText.Array.data[1]
+      value: 
+      objectReference: {fileID: 1340037418}
+    - target: {fileID: 6096226676144552334, guid: 23cac7d05864f1a4aa9c20c7d3bd855f, type: 3}
+      propertyPath: abilityText.Array.data[2]
+      value: 
+      objectReference: {fileID: 1311478532}
+    - target: {fileID: 7521262976499242673, guid: 23cac7d05864f1a4aa9c20c7d3bd855f, type: 3}
+      propertyPath: m_fontSize
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 7521262976499242673, guid: 23cac7d05864f1a4aa9c20c7d3bd855f, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 9098016057564021255, guid: 23cac7d05864f1a4aa9c20c7d3bd855f, type: 3}
+      propertyPath: m_fontSize
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 9098016057564021255, guid: 23cac7d05864f1a4aa9c20c7d3bd855f, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3102,6 +3164,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9188446476393249053, guid: e667a813300e0fe4eaf6768edf5f44bb, type: 3}
   m_PrefabInstance: {fileID: 1347894422}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1700442327 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4823701896981137020, guid: 23cac7d05864f1a4aa9c20c7d3bd855f, type: 3}
+  m_PrefabInstance: {fileID: 1616007515}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1707753762 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3046662307436104994, guid: 5390c645af92c3a4b96b65f761c56a3d, type: 3}

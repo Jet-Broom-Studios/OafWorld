@@ -48,4 +48,5 @@ MonoBehaviour:
   targetAllies: 0
   range: 2
   damage: 20
+  manaCost: 15
   ignoreCover: 1

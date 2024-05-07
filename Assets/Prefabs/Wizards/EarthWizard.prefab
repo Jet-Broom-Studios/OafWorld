@@ -9,8 +9,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3449446700179914030, guid: 32c7bb0047c28f54e8f4140a84d7a0ae, type: 3}
+      propertyPath: maxMP
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 3449446700179914030, guid: 32c7bb0047c28f54e8f4140a84d7a0ae, type: 3}
       propertyPath: unitName
       value: Rocky
+      objectReference: {fileID: 0}
+    - target: {fileID: 3449446700179914030, guid: 32c7bb0047c28f54e8f4140a84d7a0ae, type: 3}
+      propertyPath: maxHealth
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 3449446700179914030, guid: 32c7bb0047c28f54e8f4140a84d7a0ae, type: 3}
       propertyPath: moveSpeed
@@ -30,12 +38,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3449446700179914030, guid: 32c7bb0047c28f54e8f4140a84d7a0ae, type: 3}
       propertyPath: abilities.Array.size
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3449446700179914030, guid: 32c7bb0047c28f54e8f4140a84d7a0ae, type: 3}
       propertyPath: abilities.Array.data[0]
       value: 
       objectReference: {fileID: 3461941818849335373, guid: 5d5830ecab1a0de42843a05ad272bd6b, type: 3}
+    - target: {fileID: 3449446700179914030, guid: 32c7bb0047c28f54e8f4140a84d7a0ae, type: 3}
+      propertyPath: abilities.Array.data[1]
+      value: 
+      objectReference: {fileID: 6107608165117937392, guid: 53871cb6e78acac49bc93a8ff0cbddc7, type: 3}
+    - target: {fileID: 3449446700179914030, guid: 32c7bb0047c28f54e8f4140a84d7a0ae, type: 3}
+      propertyPath: abilities.Array.data[2]
+      value: 
+      objectReference: {fileID: 7582223217041376612, guid: 0cce5b5c64e75a749816a192350b4dcf, type: 3}
     - target: {fileID: 5580658866359731058, guid: 32c7bb0047c28f54e8f4140a84d7a0ae, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 

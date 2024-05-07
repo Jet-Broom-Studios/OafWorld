@@ -22,6 +22,8 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
     public int attackDamage2;
     // This unit's maximum HP
     public int maxHealth;
+    //Max MP of unit
+    public int maxMP;
     // The abilities that this unit has (attacks, spells, etc.)
     public UnitAbility[] abilities;
 
@@ -37,6 +39,8 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
     internal int currentHealth;
     // How many action points this unit currently has
     internal int actionPoints;
+    // Current MP of unit
+    internal int currMP;
     // What path node this unit is currently at
     private int currentNode;
     // Whether this unit is currently idle (and can be selected and ordered)
@@ -66,6 +70,7 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
         renderer = GetComponent<Renderer>();
         renderer.material = neutralMaterial;
         currentHealth = maxHealth;
+        currMP = maxMP;
         actionPoints = 2;
 
         wizSounds = GetComponent<WizSoundManager>();
@@ -117,29 +122,37 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
             // this just instantly damages the target without any visual feedback.
 
             // Check if the target is in cover
-            float chanceToHit = 1 - (0.5f * MapManager.instance.GetProtection(currentNode, currentTarget.currentNode));
-            print(name + " is attacking " + currentTarget.unitName + " with a " + chanceToHit + " chance to hit.");
-            bool hit = (Random.value < chanceToHit);
-
-            if (hit || abilities[action].ignoreCover)
+            if (abilities[action].manaCost <= currMP)
             {
-                // Damage the target with proper damage depending on selected action
-                currentTarget.ChangeHealth(-abilities[action].damage);
+                currMP -= abilities[action].manaCost;
+                float chanceToHit = 1 - (0.5f * MapManager.instance.GetProtection(currentNode, currentTarget.currentNode));
+                print(name + " is attacking " + currentTarget.unitName + " with a " + chanceToHit + " chance to hit.");
+                bool hit = (Random.value < chanceToHit);
+
+                if (hit || abilities[action].ignoreCover)
+                {
+                    // Damage the target with proper damage depending on selected action
+                    currentTarget.ChangeHealth(-abilities[action].damage);
+                }
+                else
+                {
+                    // Damage the cover (if it exists) with proper damage depending on selected action
+                    print("Missed target!");
+                    NodeController targetNode = MapManager.instance.GetNode(currentTarget.currentNode);
+                    if (targetNode.GetFrontCover() != null)
+                    {
+                        //print("front cover found!");
+                        targetNode.GetFrontCover().ChangeHealth(-abilities[action].damage);
+                    }
+                }
+
+                // Attack done
+                FinishAction();
             }
             else
             {
-                // Damage the cover (if it exists) with proper damage depending on selected action
-                print("Missed target!");
-                NodeController targetNode = MapManager.instance.GetNode(currentTarget.currentNode);
-                if (targetNode.GetFrontCover() != null)
-                {
-                    //print("front cover found!");
-                    targetNode.GetFrontCover().ChangeHealth(-abilities[action].damage);
-                }
+                print("Not Enough MP");
             }
-
-            // Attack done
-            FinishAction();
         }
     }
 

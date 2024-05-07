@@ -13,8 +13,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: 8f85f9a67aa08e344b8a73c6bca1e92a, type: 2}
     - target: {fileID: 3449446700179914030, guid: 32c7bb0047c28f54e8f4140a84d7a0ae, type: 3}
+      propertyPath: maxMP
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 3449446700179914030, guid: 32c7bb0047c28f54e8f4140a84d7a0ae, type: 3}
       propertyPath: unitName
       value: Zephyr
+      objectReference: {fileID: 0}
+    - target: {fileID: 3449446700179914030, guid: 32c7bb0047c28f54e8f4140a84d7a0ae, type: 3}
+      propertyPath: maxHealth
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 3449446700179914030, guid: 32c7bb0047c28f54e8f4140a84d7a0ae, type: 3}
       propertyPath: moveSpeed
@@ -34,12 +42,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3449446700179914030, guid: 32c7bb0047c28f54e8f4140a84d7a0ae, type: 3}
       propertyPath: abilities.Array.size
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3449446700179914030, guid: 32c7bb0047c28f54e8f4140a84d7a0ae, type: 3}
       propertyPath: abilities.Array.data[0]
       value: 
       objectReference: {fileID: 4550157397466401242, guid: 7a2240e66f39ba747acc63e5c8b60bd4, type: 3}
+    - target: {fileID: 3449446700179914030, guid: 32c7bb0047c28f54e8f4140a84d7a0ae, type: 3}
+      propertyPath: abilities.Array.data[1]
+      value: 
+      objectReference: {fileID: 2428956322715717471, guid: 68b7ef3125899024abc57a7a2a964db1, type: 3}
+    - target: {fileID: 3449446700179914030, guid: 32c7bb0047c28f54e8f4140a84d7a0ae, type: 3}
+      propertyPath: abilities.Array.data[2]
+      value: 
+      objectReference: {fileID: 6456749361279864907, guid: b79052dad5b661942859b6236d5e6649, type: 3}
     - target: {fileID: 5580658866359731058, guid: 32c7bb0047c28f54e8f4140a84d7a0ae, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
