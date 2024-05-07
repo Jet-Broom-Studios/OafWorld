@@ -199,7 +199,7 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
         {
             GameManager.playerUnitCount -= 1;
         }
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 
     // Set this unit as the selected unit

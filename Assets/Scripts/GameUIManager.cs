@@ -41,7 +41,7 @@ public class GameUIManager : MonoBehaviour
     void Update()
     {
         UnitController selectedUnit = GameManager.instance.GetSelectedUnit();
-        if (selectedUnit != null)
+        if (selectedUnit != null && selectedUnit.belongsToPlayer)
         {
             unitNameText.text = selectedUnit.unitName;
             hpText.text = "HP\n" + selectedUnit.currentHealth + "/" + selectedUnit.maxHealth;
