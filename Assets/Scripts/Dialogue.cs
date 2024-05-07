@@ -25,6 +25,7 @@ public class Dialogue : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        MusicManager.instance.GetComponent<AudioSource>().Stop();
         dsm = GameObject.FindGameObjectWithTag("dsm");
         getScript();
         text.text = string.Empty;

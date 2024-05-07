@@ -8,6 +8,7 @@ TagManager:
   - Full Cover
   - Half Cover
   - dsm
+  - music
   layers:
   - Default
   - TransparentFX
