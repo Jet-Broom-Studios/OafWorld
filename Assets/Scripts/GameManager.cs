@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     // Static instance of the Game Manager,
@@ -17,6 +17,9 @@ public class GameManager : MonoBehaviour
     public static bool l1Complete;
     public static bool l2Complete;
     public static bool l3Complete;
+
+    private List<UnitController> playerUnits;
+    public static int playerUnitCount;
 
 
     // Called when the object is initialized
@@ -40,8 +43,41 @@ public class GameManager : MonoBehaviour
 
         selectedUnit = null;
         isPlayerTurn = true;
+
+        playerUnits = new List<UnitController>();
+        UnitController[] unitList = FindObjectsByType<UnitController>(FindObjectsSortMode.None);
+        for (int i = 0; i < unitList.Length; i++)
+        {
+            if (unitList[i].belongsToPlayer)
+            {
+                playerUnits.Add(unitList[i]);
+            }
+        }
+        playerUnitCount = playerUnits.Count;
     }
 
+    void Update()
+    {
+        if (playerUnitCount <= 0)
+        {
+            GameEnd.gameOver = true;
+            GameEnd.loss.SetActive(true);
+            DelaySceneChange(5);
+        }
+    }
+
+    void DelaySceneChange(float delay)
+    {
+        StartCoroutine(DelayAction(delay));
+    }
+
+    IEnumerator DelayAction(float delay)
+    {
+        yield return new WaitForSecondsRealtime(delay);
+        GameEnd.loss.SetActive(false);
+        SceneManager.LoadScene("TitleScene");
+    }
+    
     public void SetSelectedUnit(UnitController unit)
     {
         selectedUnit = unit;

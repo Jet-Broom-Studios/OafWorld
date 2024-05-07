@@ -181,6 +181,10 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
         {
             EnemyManager.enemyCount -= 1;
         }
+        else
+        {
+            GameManager.playerUnitCount -= 1;
+        }
         Destroy(gameObject);
     }
 

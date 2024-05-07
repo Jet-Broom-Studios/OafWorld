@@ -53,6 +53,8 @@ public class EnemyManager : MonoBehaviour
     {
         if (enemyCount <= 0)
         {
+            GameEnd.gameWin = true;
+            GameEnd.win.SetActive(true);
             if (DialogueSelectManager.currLevel == "Level1")
             {
                 GameManager.l1Complete = true;
@@ -65,16 +67,7 @@ public class EnemyManager : MonoBehaviour
             {
                 GameManager.l3Complete = true;
             }
-            if (GameManager.l1Complete && GameManager.l2Complete && GameManager.l3Complete)
-            {
-                GameManager.endGame = true;
-                DialogueSelectManager.currLevel = "";
-                DelaySceneChange(100);
-            }
-            else
-            {
-                DelaySceneChange(100);
-            }
+            DelaySceneChange(5);
         }
         if (!GameManager.instance.IsPlayerTurn())
         {
@@ -389,10 +382,12 @@ public class EnemyManager : MonoBehaviour
         {
             GameManager.endGame = true;
             DialogueSelectManager.currLevel = "";
+            GameEnd.win.SetActive(false);
             SceneManager.LoadScene("DialogueScene");
         }
         else
         {
+            GameEnd.win.SetActive(false);
             SceneManager.LoadScene("LevelSelectScene");
         }
     }

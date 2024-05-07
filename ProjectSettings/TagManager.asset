@@ -9,6 +9,8 @@ TagManager:
   - Half Cover
   - dsm
   - music
+  - GameOver
+  - Win
   layers:
   - Default
   - TransparentFX
