@@ -27,6 +27,8 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
     public Material neutralMaterial;
     // Material for nodes that can be pathed to
     public Material targetableMaterial;
+    private WizSoundManager wizSounds;
+    private RobotSoundManager roboSounds;
 
     private new Renderer renderer;
     // How much HP this unit currently has
@@ -63,6 +65,9 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
         renderer.material = neutralMaterial;
         currentHealth = maxHealth;
         actionPoints = 2;
+
+        wizSounds = GetComponent<WizSoundManager>();
+        roboSounds = GetComponent<RobotSoundManager>();
 
         anim = GetComponent<PlayerAnimScript>();
     }
@@ -223,11 +228,19 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
         actionPoints--;
         SetIdle(false);
         moving = true;
+        if (moving && wizSounds != null)
+        {
+            wizSounds.PlayWalk();
+        }
         this.nodePath = nodePath;
     }
 
     public void OrderMove(int node)
     {
+        if (roboSounds != null)
+        {
+            roboSounds.PlayRoboMove();
+        }
         OrderMove(MapManager.instance.GetNodePath(MapManager.instance.GetNode(node)));
     }
 
@@ -235,6 +248,9 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
     public void OrderAttack(UnitController targetUnit)
     {
         anim.StartAttack(targetUnit, action);
+        if (!belongsToPlayer && roboSounds != null) {
+            roboSounds.PlayRoboAtk();
+        }
     }
     // Contains what used to exist in OrderAttack, now called from PlayerAnimScript
     public void commitAction(UnitController targetUnit)
@@ -301,6 +317,15 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
         GameManager.instance.CheckTurnDone();
         // Update which spots are taken if a unit moves or dies
         MapManager.instance.UpdateNodeOccupation();
+        if (wizSounds != null)
+        {
+            wizSounds.StopWalk();
+        }
+
+        if (roboSounds != null)
+        {
+            roboSounds.StopRoboMove();
+        }
     }
 
     public void SelectActions(int actionSelection)
