@@ -47,7 +47,7 @@ public class GameUIManager : MonoBehaviour
             hpText.text = "HP\n" + selectedUnit.currentHealth + "/" + selectedUnit.maxHealth;
             apText.text = "AP\n" + selectedUnit.actionPoints.ToString();
             mpText.text = "MP\n" + selectedUnit.currMP + "/" + selectedUnit.maxMP;
-            abilityText[0].text = selectedUnit.abilities[0].abilityName + "\nMP: " + selectedUnit.abilities[0].manaCost + " L Range: " + selectedUnit.abilities[0].range;
+            abilityText[0].text = selectedUnit.abilities[0].abilityName + "\nMP: " + selectedUnit.abilities[0].manaCost + " | Range: " + selectedUnit.abilities[0].range;
             abilityText[1].text = selectedUnit.abilities[1].abilityName + "\nMP: " + selectedUnit.abilities[1].manaCost + " | Range: " + selectedUnit.abilities[1].range;
             abilityText[2].text = selectedUnit.abilities[2].abilityName + "\nMP: " + selectedUnit.abilities[2].manaCost + " | Range: " + selectedUnit.abilities[2].range;
         }
