@@ -74,6 +74,7 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(delay);
         GameEnd.gameOver = false;
+        MusicManager.instance.GetComponent<AudioSource>().Play();
         SceneManager.LoadScene("TitleScene");
     }
 

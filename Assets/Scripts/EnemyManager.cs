@@ -384,13 +384,15 @@ public class EnemyManager : MonoBehaviour
         if (GameManager.l1Complete && GameManager.l2Complete && GameManager.l3Complete)
         {
             GameManager.endGame = true;
-            DialogueSelectManager.currLevel = "";
+            DialogueSelectManager.currLevel = "TitleScene";
             GameEnd.gameWin = false;
+            MusicManager.instance.GetComponent<AudioSource>().Play();
             SceneManager.LoadScene("DialogueScene");
         }
         else
         {
             GameEnd.gameWin = false;
+            MusicManager.instance.GetComponent<AudioSource>().Play();
             SceneManager.LoadScene("LevelSelectScene");
         }
     }

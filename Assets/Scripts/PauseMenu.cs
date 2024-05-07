@@ -44,6 +44,7 @@ public class PauseMenu : MonoBehaviour
     public void SelectLevel(){
         isPaused = false;
         Time.timeScale = 1f;
+        MusicManager.instance.GetComponent<AudioSource>().Play();
         SceneManager.LoadScene("LevelSelectScene");
         ResumeGame();
     }
@@ -51,6 +52,7 @@ public class PauseMenu : MonoBehaviour
     public void QuitGame(){
         isPaused = false;
         Time.timeScale = 1f;
+        MusicManager.instance.GetComponent<AudioSource>().Play();
         SceneManager.LoadScene("TitleScene");
         ResumeGame();
     }

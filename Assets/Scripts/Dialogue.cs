@@ -150,6 +150,10 @@ public class Dialogue : MonoBehaviour
             wizards[1].SetActive(false);
             wizards[2].SetActive(false);
             wizards[3].SetActive(false);
+            if (DialogueSelectManager.currLevel == "TitleScene")
+            {
+                MusicManager.instance.GetComponent<AudioSource>().Play();
+            }
             SceneManager.LoadScene(DialogueSelectManager.currLevel);
 
         }
