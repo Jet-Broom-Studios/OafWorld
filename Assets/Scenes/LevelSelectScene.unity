@@ -382,7 +382,7 @@ MonoBehaviour:
   - Script
   - Script2
   - Script3
-  currLevel: 
+  - Script4
 --- !u!4 &767132754
 Transform:
   m_ObjectHideFlags: 0
