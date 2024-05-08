@@ -174,9 +174,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: TrooperBoss
   belongsToPlayer: 0
-  movePower: 7
+  movePower: 4
   moveSpeed: 2
-  attackRange: 4
+  attackRange: 2
   attackDamage0: 25
   attackDamage1: 0
   attackDamage2: 0

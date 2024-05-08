@@ -45,7 +45,7 @@ public class PlayerAnimScript : MonoBehaviour
             {
                 int rnd = Random.Range(0, 3);
                 //print("TIME! rnd = " + rnd);
-                if (rnd == 1/* && !anim.GetBool("action0") && !anim.GetBool("action1") && !anim.GetBool("action2") && !anim.GetBool("isWalking")*/)
+                if (rnd == 1)
                 {
                     anim.SetBool("isLooking", true);
                     anim.CrossFade("LookAround", .1f);
