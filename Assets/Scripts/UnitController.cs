@@ -273,10 +273,9 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
             }
         }
 
-        if (!belongsToPlayer && roboSounds != null) {
-            roboSounds.PlayRoboAtk();
-        }
+
         anim.StartAttack(targetUnit, action);
+        
     }
     // Contains what used to exist in OrderAttack, now called from PlayerAnimScript
     public void commitAction(UnitController targetUnit)
@@ -285,6 +284,10 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
         SetIdle(false);
         attacking = true;
         currentTarget = targetUnit;
+        if (!belongsToPlayer && attacking && roboSounds != null)
+        {
+            roboSounds.PlayRoboAtk();
+        }
     }
 
     public void SetIdle(bool isIdle)
