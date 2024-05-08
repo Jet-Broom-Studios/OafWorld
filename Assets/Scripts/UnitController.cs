@@ -115,7 +115,7 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
                 }
             }
         }
-        else if (attacking & actionPoints >0)
+        else if (attacking)
         {
             // TODO: Do some sort of animation schenanigans here, right now
             // this just instantly damages the target without any visual feedback.
