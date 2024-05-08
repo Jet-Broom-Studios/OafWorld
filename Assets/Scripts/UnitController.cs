@@ -224,6 +224,11 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
     // Move along the given path of nodes
     public void OrderMove(List<int> nodePath)
     {
+        if (actionPoints <= 0)
+        {
+            return; // Do nothing
+        }
+        
         actionPoints--;
         SetIdle(false);
         moving = true;
@@ -240,6 +245,11 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
 
     public void OrderMove(int node)
     {
+        if (actionPoints <= 0)
+        {
+            return; // Do nothing
+        }
+        
         if (roboSounds != null)
         {
             roboSounds.PlayRoboMove();
@@ -250,6 +260,11 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
     // Attack the target unit
     public void OrderAttack(UnitController targetUnit)
     {
+        if (actionPoints <= 0)
+        {
+            return; // Do nothing
+        }
+
         if (abilities[action].manaCost <= currMP)
         {
             if (belongsToPlayer && wizSounds != null)
