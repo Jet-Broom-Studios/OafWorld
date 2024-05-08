@@ -241,6 +241,8 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
         this.nodePath = nodePath;
         // Set the target tile to be occupied ahead of time
         MapManager.instance.GetNode(nodePath[0]).SetOccupied(true);
+        // Free up the node we're currently standing on (and moving off of)
+        MapManager.instance.GetNode(currentNode).SetOccupied(false);
     }
 
     public void OrderMove(int node)
