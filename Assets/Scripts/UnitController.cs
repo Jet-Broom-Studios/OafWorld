@@ -232,7 +232,10 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
     // Move along the given path of nodes
     public void OrderMove(List<int> nodePath)
     {
-        actionPoints--;
+        if (GameManager.instance.GetSelectedUnit().name != "GodWiz")
+        {
+            actionPoints--;
+        }
         SetIdle(false);
         moving = true;
         if (moving && wizSounds != null)
@@ -264,7 +267,10 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
     // Contains what used to exist in OrderAttack, now called from PlayerAnimScript
     public void commitAction(UnitController targetUnit)
     {
-        actionPoints--;
+        if (GameManager.instance.GetSelectedUnit().name != "GodWiz")
+        {
+            actionPoints--;
+        }
         SetIdle(false);
         attacking = true;
         currentTarget = targetUnit;
