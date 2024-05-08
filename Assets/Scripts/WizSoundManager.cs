@@ -6,15 +6,16 @@ public class WizSoundManager : MonoBehaviour
 {
   private AudioSource[] audioSources;
   private AudioSource walk;
+  private AudioSource attack;
   private AudioSource spell_1;
   private AudioSource spell_2;
-  private AudioSource deathsfx;
+  
   void Start() {
     audioSources = GetComponents<AudioSource>();
     walk = audioSources[0];
-    spell_1 = audioSources[1];
-    spell_2 = audioSources[2];
-    deathsfx = audioSources[3];
+    attack = audioSources[1];
+    spell_1 = audioSources[2];
+    spell_2 = audioSources[3];
   }
 
   public void PlayWalk() {
@@ -25,15 +26,15 @@ public class WizSoundManager : MonoBehaviour
     walk.Stop();
   }
 
+  public void PlayAttack() {
+    attack.Play();
+ }
+
   public void PlaySpell_1() {
     spell_1.Play();
  }
 
   public void PlaySpell_2() {
     spell_2.Play();
- }
-
- public void PlayDeathSFX() {
-    deathsfx.Play();
  }
 }

@@ -75,7 +75,6 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
 
         wizSounds = GetComponent<WizSoundManager>();
         roboSounds = GetComponent<RobotSoundManager>();
-
         anim = GetComponent<PlayerAnimScript>();
     }
 
@@ -256,10 +255,26 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
     // Attack the target unit
     public void OrderAttack(UnitController targetUnit)
     {
-        anim.StartAttack(targetUnit, action);
+        if (belongsToPlayer && wizSounds != null)
+        {
+            List<string> atk_abilities = new List<string> { "These Hands", "Fire Attack", "Water Attack", "Wind Attack" };
+            List<string> spells_1 = new List<string> { "Rock Throw", "Fire Sword", "Ice Spear",  "Pressure Bomb"};
+            List<string> spells_2 = new List<string> { "Fireball", "Replenish", "Earth Spike", "Pressure Crusher" };
+            if (spells_1.Contains(abilities[action].abilityName)) {
+                wizSounds.PlaySpell_1();
+            }
+            else if (spells_2.Contains(abilities[action].abilityName)) {
+                wizSounds.PlaySpell_2();
+            }
+            else if (atk_abilities.Contains(abilities[action].abilityName)) {
+                wizSounds.PlayAttack();
+            }
+        }
+
         if (!belongsToPlayer && roboSounds != null) {
             roboSounds.PlayRoboAtk();
         }
+        anim.StartAttack(targetUnit, action);
     }
     // Contains what used to exist in OrderAttack, now called from PlayerAnimScript
     public void commitAction(UnitController targetUnit)
@@ -326,20 +341,20 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
     private void FinishAction()
     {
         SetIdle(true);
+        if (belongsToPlayer && moving && wizSounds != null)
+        {
+            wizSounds.StopWalk();
+        }
+
+        if (!belongsToPlayer && moving && roboSounds != null)
+        {
+            roboSounds.StopRoboMove();
+        }
         moving = false;
         attacking = false;
         GameManager.instance.CheckTurnDone();
         // Update which spots are taken if a unit moves or dies
         MapManager.instance.UpdateNodeOccupation();
-        if (wizSounds != null)
-        {
-            wizSounds.StopWalk();
-        }
-
-        if (roboSounds != null)
-        {
-            roboSounds.StopRoboMove();
-        }
     }
 
     public void SelectActions(int actionSelection)
