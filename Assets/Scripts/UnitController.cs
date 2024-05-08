@@ -121,37 +121,30 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
             // this just instantly damages the target without any visual feedback.
 
             // Check if the target is in cover
-            if (abilities[action].manaCost <= currMP)
+            currMP -= abilities[action].manaCost;
+            float chanceToHit = 1 - (0.5f * MapManager.instance.GetProtection(currentNode, currentTarget.currentNode));
+            print(name + " is attacking " + currentTarget.unitName + " with a " + chanceToHit + " chance to hit.");
+            bool hit = (Random.value < chanceToHit);
+
+            if (hit || abilities[action].ignoreCover)
             {
-                currMP -= abilities[action].manaCost;
-                float chanceToHit = 1 - (0.5f * MapManager.instance.GetProtection(currentNode, currentTarget.currentNode));
-                print(name + " is attacking " + currentTarget.unitName + " with a " + chanceToHit + " chance to hit.");
-                bool hit = (Random.value < chanceToHit);
-
-                if (hit || abilities[action].ignoreCover)
-                {
-                    // Damage the target with proper damage depending on selected action
-                    currentTarget.ChangeHealth(-abilities[action].damage);
-                }
-                else
-                {
-                    // Damage the cover (if it exists) with proper damage depending on selected action
-                    print("Missed target!");
-                    NodeController targetNode = MapManager.instance.GetNode(currentTarget.currentNode);
-                    if (targetNode.GetFrontCover() != null)
-                    {
-                        //print("front cover found!");
-                        targetNode.GetFrontCover().ChangeHealth(-abilities[action].damage);
-                    }
-                }
-
-                // Attack done
-                FinishAction();
+                // Damage the target with proper damage depending on selected action
+                currentTarget.ChangeHealth(-abilities[action].damage);
             }
             else
             {
-                print("Not Enough MP");
+                // Damage the cover (if it exists) with proper damage depending on selected action
+                print("Missed target!");
+                NodeController targetNode = MapManager.instance.GetNode(currentTarget.currentNode);
+                if (targetNode.GetFrontCover() != null)
+                {
+                    //print("front cover found!");
+                    targetNode.GetFrontCover().ChangeHealth(-abilities[action].damage);
+                }
             }
+
+            // Attack done
+            FinishAction();
         }
     }
 
@@ -207,7 +200,7 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
         if (belongsToPlayer)
         {
             // Trying to target a friendly unit (for like a healing spell or something)
-            if (targetable && GameManager.instance.GetSelectedUnit() != null)
+            if (targetable && GameManager.instance.GetSelectedUnit() != null )
             {
                 GameManager.instance.GetSelectedUnit().OrderAttack(this);
             }
@@ -257,25 +250,30 @@ public class UnitController : MonoBehaviour, IPointerClickHandler, IDamageable
     // Attack the target unit
     public void OrderAttack(UnitController targetUnit)
     {
-        if (belongsToPlayer && wizSounds != null)
+        if (abilities[action].manaCost <= currMP)
         {
-            List<string> atk_abilities = new List<string> { "These Hands", "Fire Attack", "Water Attack", "Wind Attack" };
-            List<string> spells_1 = new List<string> { "Rock Throw", "Fire Sword", "Ice Spear",  "Pressure Bomb"};
-            List<string> spells_2 = new List<string> { "Fireball", "Replenish", "Earth Spike", "Pressure Crusher" };
-            if (spells_1.Contains(abilities[action].abilityName)) {
-                wizSounds.PlaySpell_1();
+            if (belongsToPlayer && wizSounds != null)
+            {
+                List<string> atk_abilities = new List<string> { "These Hands", "Fire Attack", "Water Attack", "Wind Attack" };
+                List<string> spells_1 = new List<string> { "Rock Throw", "Fire Sword", "Ice Spear",  "Pressure Bomb"};
+                List<string> spells_2 = new List<string> { "Fireball", "Replenish", "Earth Spike", "Pressure Crusher" };
+                if (spells_1.Contains(abilities[action].abilityName)) {
+                    wizSounds.PlaySpell_1();
+                }
+                else if (spells_2.Contains(abilities[action].abilityName)) {
+                    wizSounds.PlaySpell_2();
+                }
+                else if (atk_abilities.Contains(abilities[action].abilityName)) {
+                    wizSounds.PlayAttack();
+                }
             }
-            else if (spells_2.Contains(abilities[action].abilityName)) {
-                wizSounds.PlaySpell_2();
-            }
-            else if (atk_abilities.Contains(abilities[action].abilityName)) {
-                wizSounds.PlayAttack();
-            }
+
+            anim.StartAttack(targetUnit, action);
         }
-
-
-        anim.StartAttack(targetUnit, action);
-        
+        else
+        {
+            print("Not Enough MP");
+        }
     }
     // Contains what used to exist in OrderAttack, now called from PlayerAnimScript
     public void commitAction(UnitController targetUnit)
